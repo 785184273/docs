@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Async的小破屋</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="Just playing around">
+    
+    <link rel="preload" href="/assets/css/0.styles.35bcedcf.css" as="style"><link rel="preload" href="/assets/js/app.f875c668.js" as="script"><link rel="preload" href="/assets/js/2.38aa56c8.js" as="script"><link rel="preload" href="/assets/js/11.53c0c5f1.js" as="script"><link rel="prefetch" href="/assets/js/10.7eba3b03.js"><link rel="prefetch" href="/assets/js/12.5eba6016.js"><link rel="prefetch" href="/assets/js/3.0590f80b.js"><link rel="prefetch" href="/assets/js/4.eef8e9a7.js"><link rel="prefetch" href="/assets/js/5.163344ac.js"><link rel="prefetch" href="/assets/js/6.17d5dd20.js"><link rel="prefetch" href="/assets/js/7.4ddb24ca.js"><link rel="prefetch" href="/assets/js/8.8aad85b0.js"><link rel="prefetch" href="/assets/js/9.684b7cfa.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.35bcedcf.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Async的小破屋</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/" aria-current="page" class="sidebar-link">介绍</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>javascript</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/javascript/runner.html" aria-current="page" class="active sidebar-link">生成器runner</a></li><li><a href="/javascript/typeof.html" class="sidebar-link">数据类型</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><div class="custom-block tip"><p class="custom-block-title">提示</p> <p>在使用生成器函数(function* () {...})进行一系列异步操作时，我们一般都不想每次在每个yield异步请求完成时手动调用生成器实例的next方法进行迭代，可能更加需要一个runner自动迭代</p></div> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">/*
+  调用方式
+  run(function* gen () {
+    yield function () {}
+  
+    yield new Promise((resolve, reject) =&gt; {
+      // ...一系列异步操作
+    })
+  }).then(() =&gt; {}).catch(() =&gt; {})
+  返回Promise
+*/</span>
+
+<span class="token keyword">function</span> <span class="token function">run</span> <span class="token punctuation">(</span><span class="token parameter">gen</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> arg <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>arguments<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> it <span class="token operator">=</span> <span class="token function">gen</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> arg<span class="token punctuation">)</span> <span class="token comment">// 在当前环境下调用生成器函数</span>
+  <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">handleNext</span><span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> next <span class="token operator">=</span> it<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+      <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">handleResult</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> value<span class="token operator">:</span> val<span class="token punctuation">,</span> done <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>done<span class="token punctuation">)</span> <span class="token keyword">return</span> val <span class="token comment">// 判断是否结束</span>
+        <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>
+            handleNext<span class="token punctuation">,</span>
+            <span class="token parameter">err</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+              <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>it<span class="token punctuation">.</span><span class="token function">throw</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>handleResult<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>next<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="custom-block tip"><p class="custom-block-title">提示</p> <p>async函数其实就是生成器函数的语法糖，async函数就是将生成器函数的星号（*）替换成async，将yield替换成await，生成器函数的执行必须需要类似runner的执行器，async函数原理类似runner，返回一个promise</p></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/" class="prev router-link-active">
+        介绍
+      </a></span> <span class="next"><a href="/javascript/typeof.html">
+        数据类型
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.f875c668.js" defer></script><script src="/assets/js/2.38aa56c8.js" defer></script><script src="/assets/js/11.53c0c5f1.js" defer></script>
+  </body>
+</html>
