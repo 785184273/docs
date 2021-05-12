@@ -28,11 +28,13 @@ module.exports = {
     ]
   },
   plugins: [
-    '@vuepress/back-to-top',
-    '@vuepress/pwa',
-    {
-      serviceWorker: true,
-      updatePopup: true
-    }
+    ['@vuepress/back-to-top'],
+    [
+      '@vuepress/pwa', 
+      {
+        serviceWorker: true,
+        updatePopup: true
+      }
+    ],
   ]
 }
