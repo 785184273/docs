@@ -1,7 +1,11 @@
 module.exports = {
+  base: '/',
   title: 'Async的小破屋',
   description: 'Async的小破屋',
   port: '8090',
+  head: [
+    ['link', { rel: 'icon', href: '/img/logo.png' }],
+  ],
   themeConfig: {
     lastUpdated: '最后更新时间',
     smoothScroll: true, // 启用页面滚动效果
@@ -23,5 +27,12 @@ module.exports = {
       }
     ]
   },
-  plugins: ['@vuepress/back-to-top']
+  plugins: [
+    '@vuepress/back-to-top',
+    '@vuepress/pwa',
+    {
+      serviceWorker: true,
+      updatePopup: true
+    }
+  ]
 }
