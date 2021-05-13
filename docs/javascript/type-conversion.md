@@ -3,7 +3,7 @@
 ## ToString
 > **负责处理非字符串到字符串的强制类型转换**
 
-**基本类型的字符串转化规则为：**
+**转化规则为：**
 
 1. **null转换为"null"**
 2. **undefined转换为"undefined"**
@@ -32,6 +32,11 @@ obj.toString = function () {
 }
 obj + '' === 'hello' // true
 ```
+## ToPrimitive
+为了将值转换为相应的基本类型值，抽象操作ToPrimitive会首先检查该值是否有valueOf()方法。如果有并且返回基本类型值，就使用该值进行强制类型转换，如果没有就使用toString()方法的返回值来进行强制类型转换
+
+如果valueOf()和toString()均不返回基本类型值，会产生TypeError错误
+
 
 ## ToNumber
 > **负责处理非数字值转换为数值**
@@ -43,21 +48,17 @@ obj + '' === 'hello' // true
 3. **undefined转换为NaN**
 4. **null转换为0**
 5. **对字符串的处理基本上遵循数字常量的相关规则，处理失败时返回NaN**
-6. **关于对象（包含数组）则首先会转换为相应的基本类型值，如果返回的是非数字的基本类型，则再遵循上面的规则转换为数字**
+6. **关于对象（包含数组）则首先会根据ToPrimitive抽象操作转换为相应的基本类型值，如果返回的是非数字的基本类型，则再遵循上面的规则转换为数字**
 ::: warning 注意
-  为了将值转换为相应的基本类型值，抽象操作ToPrimitive会首先检查该值是否有valueOf()方法。如果有并且返回基本类型值，就使用该值进行强制类型转换，如果没有就使用toString()方法的返回值来进行强制类型转换
-
-  如果valueOf()和toString()均不返回基本类型值，会产生TypeError错误
-
   使用Object.create(null)创建的对象是没有原型对象的，所以不能直接转换，不过我们可以在对象实例上自行添加valueOf()方法和toString()方法
 :::
 ```js
 +true === 1 // true
 +false === 0 // true
-+undefined === NaN // true
+isNaN(+undefined) // NaN
 +null === 0 // true
-+[1, 2, 3] === NaN // true, 先根据ToPrimitive操作转换为字符串'1,2,3'，再根据'1,2,3'转换为失败数值NaN
-+{} === NaN // true 先根据ToPrimitive操作转换为字符串[object Object]，再根据[object Object]转换为失败数值NaN
+isNaN(+[1, 2, 3]) // true, 先根据ToPrimitive操作转换为字符串'1,2,3'，再根据'1,2,3'转换为失败数值NaN
+isNaN(+{}) // true 先根据ToPrimitive操作转换为字符串[object Object]，再根据[object Object]转换为失败数值NaN
 
 // 自行定义toString
 var a = [1, 2, 3]
@@ -117,4 +118,123 @@ var c = "''"
 !!a // true
 !!b // true
 !!c // true
+```
+## 显式强制类型转换
+显示强制类型转换是指很明显的类型转换
+
+### 字符串和数字之间的显示转换
+> 字符串和数字之间的转换是通过String()和Number()这两个内建函数实现
+```js
+  var a = 42
+  var b = String(42) // '42'
+
+  var c = '3.14'
+  var d = Number(c) // 3.14
+```
+::: tip 提示
+  String()遵循ToString规则，Number()遵循ToNumber规则
+:::
+> 除了String()和Number()之外，还有其他方法可以实现字符串和数字之间的显示转换
+
+```js
+  var a = 12
+  var b = a.toString() // '12'
+
+  var c= '3'
+  var d = +c // 3
+```
+::: tip 提示
+  不能使用42.toString()，要么使用变量，要么在42..toString()，多加一个点（.）
+:::
+
+### 显示转换为布尔值
+> 从非布尔值转换为布尔值使用Boolean()
+```js
+  var a = '0'
+  var b = []
+  var c = {}
+  var d = ''
+  var e = 0
+  var f = null
+  var g = undefined
+  Boolean(a) // true
+  Boolean(b) // true
+  Boolean(c) // true
+  Boolean(d) // false
+  Boolean(e) // false
+  Boolean(f) // false
+  Boolean(g) // false
+```
+::: tip 提示
+ 虽然Boolean()是显示的，但是并不常用，**一元运算符（!）显示的将值强制类型转换为布尔值（将真值反转为假值，假值反转为真值），!!会将反转的结果再反转回原值**
+:::
+```js
+  var a = '0'
+  var b = []
+  var c = {}
+  var d = ''
+  var e = 0
+  var f = null
+  var g = undefined
+  !!a // true
+  !!b // true
+  !!c // true
+  !!d // false
+  !!e // false
+  !!f // false
+  !!g // false
+```
+## 隐式强制类型转换
+隐式类型转换是指比较隐蔽的类型转换
+
+### 字符串和数字之间的隐式转换
+**（+）运算符既能用于数字加法，也能用于字符串拼接**
+::: tip 提示
+  如果某个操作数是字符串或者能够通过以下步骤转换为字符串的话，+将进行拼接操作，如果其中一个操作数是对象（包括数组），则首先对其调用ToPrimitive抽象操作，该抽象操作再调用[[DefaultValue]]，以数字作为上下文
+
+  简单来说就是，如果+的其中一个操作数是字符串（或者通过以上步骤可以得到字符串），则只需字符串拼接，否则执行数字加法
+:::
+```js
+true + 0 === 1 // 执行加法操作，true转化为1
+false + 0 === 0 // 同理false转为0
+null + 0 === 0 // null转为0
+[1, 2] + [3, 4] === '1,23,4' // 根据ToPrimitive抽象操作进行转换，转为字符串1,2和3,4进行拼接
+// 如果是对象
+var a = {
+  valueOf () {
+    return 12
+  },
+  toString () {
+    return 11
+  }
+}
+a + '' // 12
+String(a) // 11
+```
+**（-）运算符能将字符串强制转换为数字, 也可以使用（*）a * 1或（/）a / 1**
+```js
+  var a = '3.14'
+  var b = a - 0
+  b // 3.14
+```
+::: tip 提示
+对象的-和+类似，为了执行减法运算，会首先会被转为字符串，然后再转化为数字
+:::
+
+## 符号的强制类型转换
+::: tip 提示
+es6允许从符号到字符串的显示强制类型转换，隐式强制类型转换会发生错误
+
+符号不能够被强制类型转换为数字（显示和隐式都会报错），但可以被强制类型转换为布尔值（显示和隐式结果都为true）
+:::
+```js
+var a = Symbol('a')
+String(a) // 'Symbol(a)'
+Boolean(a) // true
+!!a // true
+!a // false
+
+a + '' // TypeError
+Number(a) // TypeError
+a - 0 // TypeError
 ```
