@@ -12,17 +12,23 @@ module.exports = {
     // 开启搜索
     search: true,
     searchMaxSuggestions: 10,
+    // displayAllHeaders: true, // 显示所有页面的标题链接
     sidebar: [
       ['/', '介绍'],
       {
         title: 'javascript',   // 必要的
-        collapsable: true, // 可选的, 默认值是 true,
+        collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 2,    // 可选的, 默认值是 1
         children: [
           ['/javascript/runner', '生成器runner'],
           ['/javascript/typeof', '数据类型'],
           ['/javascript/promise', 'promise'],
-          ['/javascript/type-conversion', '类型转换']
+          ['/javascript/type-conversion', '类型转换'],
+          ['/javascript/json', 'JSON.stringify()'],
+          ['/javascript/object-wrapper', '封装对象'],
+          ['/javascript/scope', '作用域'],
+          ['/javascript/let-loop-and-closure', '闭包和let循环'],
+          ['/javascript/function', '函数']
         ]
       }
     ]

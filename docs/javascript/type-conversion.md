@@ -16,7 +16,7 @@ null + '' === 'null' // true
 undefined + '' === 'undefined' // true
 true + '' === 'true' // true
 10 + '' === '10' // true
-10 *** 10 + '' === '1e+100'
+10 ** 100 + '' === '1e+100'
 '' + {} === '[object Object]' // true
 [1, 2, 3] + '' ==== '1,2,3' // true
 
@@ -37,6 +37,9 @@ obj + '' === 'hello' // true
 
 如果valueOf()和toString()均不返回基本类型值，会产生TypeError错误
 
+::: warning 注意
+  使用Object.create(null)创建的对象是没有原型对象的，所以不能直接转换，不过我们可以在对象实例上自行添加valueOf()方法和toString()方法
+:::
 
 ## ToNumber
 > **负责处理非数字值转换为数值**
@@ -49,16 +52,13 @@ obj + '' === 'hello' // true
 4. **null转换为0**
 5. **对字符串的处理基本上遵循数字常量的相关规则，处理失败时返回NaN**
 6. **关于对象（包含数组）则首先会根据ToPrimitive抽象操作转换为相应的基本类型值，如果返回的是非数字的基本类型，则再遵循上面的规则转换为数字**
-::: warning 注意
-  使用Object.create(null)创建的对象是没有原型对象的，所以不能直接转换，不过我们可以在对象实例上自行添加valueOf()方法和toString()方法
-:::
 ```js
 +true === 1 // true
 +false === 0 // true
-isNaN(+undefined) // NaN
+Number.isNaN(+undefined) // NaN
 +null === 0 // true
-isNaN(+[1, 2, 3]) // true, 先根据ToPrimitive操作转换为字符串'1,2,3'，再根据'1,2,3'转换为失败数值NaN
-isNaN(+{}) // true 先根据ToPrimitive操作转换为字符串[object Object]，再根据[object Object]转换为失败数值NaN
+Number.isNaN(+[1, 2, 3]) // true, 先根据ToPrimitive操作转换为字符串'1,2,3'，再根据'1,2,3'转换为失败数值NaN
+Number.isNaN(+{}) // true 先根据ToPrimitive操作转换为字符串[object Object]，再根据[object Object]转换为失败数值NaN
 
 // 自行定义toString
 var a = [1, 2, 3]
@@ -237,4 +237,136 @@ Boolean(a) // true
 a + '' // TypeError
 Number(a) // TypeError
 a - 0 // TypeError
+```
+
+## 宽松相等和严格相等
+宽松相等（==）和严格相等（===）都用来判断两个值是否相等，但是他们之间有一个很重要的区别
+::: warning 注意
+**==允许在相等比较中进行强制类型转换（两个不同类型值的时候），而===不允许**
+:::
+### 字符串和数字之间的相等比较（==）
+```js
+var a = 42
+var b = '42'
+a === b // false
+a == b // true
+```
+应为没有强制类型转换，所有a === b为false，42和“42”不相等，而a == b是宽松相等，即如果两个值的类型不同，会对其中一个或两者都进行强制类型转换
+* 如果x是数字，y是字符串，则返回x == ToNumber(y)的结果
+* 如果x是字符串，y是数字，则返回ToNumber(x) == y的结果
+### 其它类型和布尔类型之间的相等比较（==）
+```js
+var a = '42'
+var b = true
+a == b // false
+```
+* 如果x是布尔类型，则返回y == ToNumber(x)的结果
+* 如果y是布尔类型，则返回ToNumber(y) == x的结果
+
+上例中会将true转换为1，再进行1 == '42'的比较，类型也不相同，再根据数字和字符串之间相等比较的规则进行转换为1 == 42，结果为false
+
+反过来也一样
+```js
+var a = '42'
+var b = false
+a == b // false
+```
+会将false转为0，然后'42' == 0再变成 42 == 0，结果为false
+### null和undefined之间的相等比较（==）
+null和undefined之间的==也涉及隐式强制类型转换
+* 如果x为null，y为undefined，则结果为true
+* 如果x为undefined，y为null，则结果为true
+
+**在==中null和undefined相等（它们也与其自身相等），除此之外其他值都不和它们两个相等**
+```js
+var a = null
+var b // 声明一个变量，但是未赋值，相当于直接赋值为undefined
+
+a == b // true
+a == null // true
+b == null // true
+
+a == false // false
+b == false // false
+a == '' // false
+b == '' // false
+a == 0 // false
+b == 0 // false
+```
+### 对象和非对象之间的相等比较
+* 如果x为字符串或数字，y为对象，则返回x == ToPrimitive(y)的结果
+* 如果x为对象，y为字符串或数字，则返回ToPrimitive(x) == y的结果
+```js
+var a = 12
+var b = [12]
+
+a == b // true
+```
+[12]首先调用ToPrimitive抽象操作，返回‘12’，再将其转为数字12，结果返回true
+
+**我们也可以自定义valueOf方法从复杂的数据结构中返回一个简单值进行比较**
+```js
+var a = function () {}
+a.valueOf = function () { return 12 }
+var b = 12
+a == b // true
+```
+### 少见的情况
+更改内置原生原型
+```js
+Number.prototype.valueOf = function () {
+  return 3
+}
+new Number(2) == 3 // true
+```
+更诡异的
+```js
+var i = 2
+Number.prototype.valueOf = function () {
+  return i++
+}
+var a = new Number(3)
+if (a == 2 && a == 3) {
+  console.log('鬼故事开始了....') // 会走到这一步
+}
+```
+a == 2 和 a == 3会触发强制类型转换，涉及ToPrimitive抽象操作
+```js
+[] == ![] // true ([] == false) => ('' == 0) => (0 == 0) 
+```
+[]为真值，取反则为false，变为 [] == false，再根据前面其它类型和布尔类型之间的相等比较和对象和非对象的相等比较，过程演变为([] == false) => ('' == 0) => (0 == 0) 
+```js
+[] + {} == '[object Object]' // true ('' + '[object Object]')
+{} + [] == 0 // true
+```
+第二行{}被当做一个独立的空代码块（不执行任何操作），代码块的结尾不需要分号，所以不存在语法问题，最后 + []将[]显示强制类型转换为0
+### 假值的相等比较
+```js
+'0' == null // false
+'0' == undefined // false
+'0' == false // true ('0' == 0) => (0 == 0)
+'0' == NaN // false
+'0' == 0 // true 0 == 0
+'0' == '' // false
+
+ false == null // false
+ false == undefined // false
+ false == NaN // false
+ false == 0 // true 0 == 0
+ false == '' // true 0 == 0
+ false == [] // true (0 == '') => (0 == 0)
+ false == {} // false
+
+ '' == null // false
+ '' == undefined // false
+ '' == NaN // false
+ '' == 0 // true
+ '' == [] // true [] => ''
+ '' == {} // false {} => '[object Object]'
+
+ 0 == null // false
+ 0 == undefined // false
+ 0 == NaN // false
+ 0 == [] // true [] => '' => 0
+ 0 == {} // false
 ```
