@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>概述 | Async的小破屋</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/img/logo.png">
+    <meta name="description" content="Async的小破屋">
+    
+    <link rel="preload" href="/assets/css/0.styles.c896736b.css" as="style"><link rel="preload" href="/assets/js/app.fb8c16d9.js" as="script"><link rel="preload" href="/assets/js/2.fb594e9f.js" as="script"><link rel="preload" href="/assets/js/14.a1e3b57d.js" as="script"><link rel="preload" href="/assets/js/3.b5414e19.js" as="script"><link rel="prefetch" href="/assets/js/10.a7b8fbcc.js"><link rel="prefetch" href="/assets/js/11.060582a8.js"><link rel="prefetch" href="/assets/js/12.9064201e.js"><link rel="prefetch" href="/assets/js/13.8e9d76a5.js"><link rel="prefetch" href="/assets/js/15.9ed58925.js"><link rel="prefetch" href="/assets/js/16.de8b5c88.js"><link rel="prefetch" href="/assets/js/17.8f2606c1.js"><link rel="prefetch" href="/assets/js/18.06919319.js"><link rel="prefetch" href="/assets/js/19.fadb83fb.js"><link rel="prefetch" href="/assets/js/20.b207ea95.js"><link rel="prefetch" href="/assets/js/21.5ef69f58.js"><link rel="prefetch" href="/assets/js/4.e0104ba9.js"><link rel="prefetch" href="/assets/js/5.c2adf207.js"><link rel="prefetch" href="/assets/js/6.e98446e5.js"><link rel="prefetch" href="/assets/js/7.02a58e74.js"><link rel="prefetch" href="/assets/js/8.ef37e7f3.js"><link rel="prefetch" href="/assets/js/9.bee9a440.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.c896736b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Async的小破屋</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/" aria-current="page" class="sidebar-link">介绍</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>javascript</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/javascript/runner.html" class="sidebar-link">生成器runner</a></li><li><a href="/javascript/typeof.html" class="sidebar-link">数据类型</a></li><li><a href="/javascript/promise.html" class="sidebar-link">promise</a></li><li><a href="/javascript/typeConversion.html" class="sidebar-link">类型转换</a></li><li><a href="/javascript/json.html" class="sidebar-link">JSON.stringify()</a></li><li><a href="/javascript/objectWrapper.html" class="sidebar-link">封装对象</a></li><li><a href="/javascript/scope.html" class="sidebar-link">作用域</a></li><li><a href="/javascript/letLoopAndClosure.html" aria-current="page" class="active sidebar-link">闭包和let循环</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/javascript/letLoopAndClosure.html#let" class="sidebar-link">let</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/javascript/letLoopAndClosure.html#循环" class="sidebar-link">循环</a></li></ul></li><li class="sidebar-sub-header"><a href="/javascript/letLoopAndClosure.html#闭包" class="sidebar-link">闭包</a></li></ul></li><li><a href="/javascript/function.html" class="sidebar-link">函数</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="概述"><a href="#概述" class="header-anchor">#</a> 概述</h1> <p>有时我们想在for循环内部定义的setTimeout中获取每次迭代的i的值，但是想法很美好，事实却不尽人意</p> <p>for循环最常见的例子：</p> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token comment">// 5 次 5</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+</code></pre></div><p>根据作用域的工作原理，尽管循环中的5个函数是在每次迭代中分别定义，但是他们都被封闭在一个共享的作用域中，因此实际上只有1个i，所有函数共享一个i的引用</p> <h2 id="let"><a href="#let" class="header-anchor">#</a> let</h2> <p>let关键字可以将变量绑定到所在的任意作用域中（通常是{...}内部），换句话说，let为其声明的变量隐式的劫持了所在的块作用域</p> <div class="custom-block tip"><p class="custom-block-title">提示</p> <p>块作用域指的是变量和函数不仅可以属于所处的作用域，也可以属于某个代码块（通常指{...}内部）</p></div> <h3 id="循环"><a href="#循环" class="header-anchor">#</a> 循环</h3> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token comment">// 1 2 3</span>
+  <span class="token punctuation">}</span>
+</code></pre></div><blockquote><p>for循环头部的let不仅将i绑定到了for循环的块中，事实上它将其重新绑定到了循环的每一个迭代中（就是说每个迭代中都有保留一个单独的i），确保使用上一个循环迭代结束的值重新进行赋值</p></blockquote> <p>概述中的例子可以改为：</p> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> j <span class="token operator">=</span> i <span class="token comment">// 每个块中都定义了一个独立的变量j</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span> <span class="token comment">// 1 2 3 4 5</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// 或者</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token comment">// 1 2 3 4 5</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+</code></pre></div><h2 id="闭包"><a href="#闭包" class="header-anchor">#</a> 闭包</h2> <p>当函数可以记住并访问所在的词法作用域时，就产生了闭包，即使函数是在当前词法作用域之外</p> <blockquote><p>在javascript高级程序设计第三版中对闭包的定义为：有权访问另一函数作用域中变量的函数</p></blockquote> <p>看一个闭包的例子：</p> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">function</span> <span class="token function">foo</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span>
+    <span class="token keyword">function</span> <span class="token function">bar</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> bar
+  <span class="token punctuation">}</span>
+  <span class="token keyword">var</span> baz <span class="token operator">=</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">baz</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 2</span>
+</code></pre></div><p>函数bar()的词法作用域能够访问函数foo()的内部作用域，然后将bar()函数本身当做一个值类型进行传递，<strong>这个函数bar()在定义时的词法作用域以外的地方被调用，闭包使得函数可以继续访问定义时的词法作用域</strong></p> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">var</span> fn
+  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">3</span>
+  <span class="token keyword">function</span> <span class="token function">foo</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">2</span>
+    <span class="token keyword">function</span> <span class="token function">baz</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    fn <span class="token operator">=</span> baz <span class="token comment">// 将baz分配给全局变量</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">function</span> <span class="token function">bar</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 2</span>
+</code></pre></div><div class="custom-block tip"><p class="custom-block-title">提示</p> <p>无论通过何种手段将内部函数传递到所在的词法作用域以外，它都会持有对原始定义作用域的引用，无论在何处执行这个函数都会使用闭包</p></div> <div class="language-js extra-class"><pre class="language-js"><code>  <span class="token keyword">function</span> <span class="token function">delay</span> <span class="token punctuation">(</span><span class="token parameter">msg</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">timer</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span> <span class="token comment">// delay</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">delay</span><span class="token punctuation">(</span><span class="token string">'delay'</span><span class="token punctuation">)</span>
+</code></pre></div><p>将一个内部函数timer传递给setTimeout()，timer具有函数delay()作用域的闭包，因此保有对变量msg的引用</p> <p>delay()执行1000毫秒后，它的内部作用域并不会消失，timer函数依然保有delay()的闭包</p> <p>概述中的例子可以改写为：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">j</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>在每次迭代中都会生成一个新的作用域，每个迭代中都会包含一个变量（j）供我们访问</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/javascript/scope.html" class="prev">
+        作用域
+      </a></span> <span class="next"><a href="/javascript/function.html">
+        函数
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.fb8c16d9.js" defer></script><script src="/assets/js/2.fb594e9f.js" defer></script><script src="/assets/js/14.a1e3b57d.js" defer></script><script src="/assets/js/3.b5414e19.js" defer></script>
+  </body>
+</html>

@@ -23,11 +23,11 @@ module.exports = {
           ['/javascript/runner', '生成器runner'],
           ['/javascript/typeof', '数据类型'],
           ['/javascript/promise', 'promise'],
-          ['/javascript/type-conversion', '类型转换'],
+          ['/javascript/typeConversion', '类型转换'],
           ['/javascript/json', 'JSON.stringify()'],
-          ['/javascript/object-wrapper', '封装对象'],
+          ['/javascript/objectWrapper', '封装对象'],
           ['/javascript/scope', '作用域'],
-          ['/javascript/let-loop-and-closure', '闭包和let循环'],
+          ['/javascript/letLoopAndClosure', '闭包和let循环'],
           ['/javascript/function', '函数']
         ]
       }
