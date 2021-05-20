@@ -28,7 +28,19 @@ module.exports = {
           ['/javascript/objectWrapper', '封装对象'],
           ['/javascript/scope', '作用域'],
           ['/javascript/letLoopAndClosure', '闭包和let循环'],
-          ['/javascript/function', '函数']
+          // ['/javascript/function', '函数']
+        ]
+      },
+      {
+        title: 'typescript',
+        collapsable: false, // 可选的, 默认值是 true,
+        sidebarDepth: 2,    // 可选的, 默认值是 1
+        children: [
+          ['/typescript/this', 'this'],
+          ['/typescript/unknown', 'unknown'],
+          ['/typescript/never', 'never'],
+          ['/typescript/asConst', 'const断言'],
+          ['/typescript/enum', 'enum']
         ]
       }
     ]
