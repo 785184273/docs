@@ -42,6 +42,24 @@ module.exports = {
           ['/typescript/asConst', 'const断言'],
           ['/typescript/enum', 'enum']
         ]
+      },
+      {
+        title: '数据结构',
+        collapsable: false, // 可选的, 默认值是 true,
+        sidebarDepth: 2,    // 可选的, 默认值是 1
+        children: [
+          ['/dataStructure/stack', '栈'],
+          ['/dataStructure/queue', '队列'],
+          ['/dataStructure/deque', '双端队列'],
+        ]
+      },
+      {
+        title: '其他',
+        collapsable: false, // 可选的, 默认值是 true,
+        sidebarDepth: 2,    // 可选的, 默认值是 1
+        children: [
+          ['/other/fncCallComponent', 'vue组件函数式调用'],
+        ]
       }
     ]
   },
