@@ -12,6 +12,10 @@
 * removeBack()：该方法会从双端队列后端移除第一个元素并返回
 * peekFront()：该方法返回双端队列前端的第一个元素
 * peekBack()：该方法返回双端队列后端的第一个元素
+* toString()：相当于数组的toString()方法
+* isEmpty()：判断双端队列中是否存在元素，如果存在则返回true，否则返回false
+* clear()：清空双端队列的所有元素
+* size()：返回双端队列元素的个数，和数组的length属性类型
 
 ## 实现
 ``` js
@@ -69,8 +73,25 @@ class Deque {
     return this._items[this._count - 1]
   }
 
+  toString () {
+    if (this.isEmpty()) return ''
+    let string = `${this._items[this._lowestCount]}`
+    let i = this._lowestCount + 1
+    while (i < this._count) {
+      string = `${string},${this._items[i]}`
+      i++
+    }
+    return string
+  }
+
   isEmpty () {
     return this.size() === 0
+  }
+
+  clear () {
+    this._items = {}
+    this._lowestCount = 0
+    this._count = 0
   }
 
   size () {
@@ -78,3 +99,41 @@ class Deque {
   }
 }
 ```
+
+## 应用
+### 回文检查器
+> **回文是正反都能读通的单词、词组、数或一系列字符的序列，例如：wow或madam**
+
+* 最简单的检查方式就是将字符串反向排列并检查它和原字符是否相等：
+``` js
+function palindromeChecker (str) {
+  const lowerStr = str.toString().replace(/\s+/g, '').toLowerCase()
+  const newStr = [...lowerStr].reverse().join('')
+  return lowerStr === newStr
+}
+```
+* 使用双端队列：
+``` js
+function palindromeChecker (str) {
+  const lowerStr = str.toString().replace(/\s+/g, '').toLowerCase()
+  const { length } = lowerStr
+  const DQ = new Deque()
+  for (let i = 0; i < length; ++i) {
+    DQ.addBack(lowerStr.charAt(i)) // 每个字符都添加到双端队列中
+  }
+  let isEqual = true
+  let firstChar
+  let lastChar
+  while (isEqual && DQ.size() > 1) {
+    firstChar = DQ.removeFront()
+    lastChar = DQ.removeBack()
+    if (firstChar != lastChar) {
+      isEqual = false
+    }
+  }
+  return isEqual
+}
+```
+* 也可以使用栈实现
+
+

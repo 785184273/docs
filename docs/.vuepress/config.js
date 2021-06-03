@@ -44,13 +44,16 @@ module.exports = {
         ]
       },
       {
-        title: '数据结构',
+        title: '数据结构与算法',
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 2,    // 可选的, 默认值是 1
         children: [
           ['/dataStructure/stack', '栈'],
           ['/dataStructure/queue', '队列'],
           ['/dataStructure/deque', '双端队列'],
+          ['/dataStructure/linkedList', '链表'],
+          ['/dataStructure/doublyLinkList', '双向链表'],
+          ['/dataStructure/sortAlgorithm', '排序算法']
         ]
       },
       {
