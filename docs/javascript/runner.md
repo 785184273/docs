@@ -28,13 +28,24 @@ function run (gen) {
           .then(
             handleNext,
             err => {
-              return Promise.resolve(it.throw(err))
+              return Promise.resolve(it.throw(err)) // throw方法被捕获以后，会附带执行下一条yield表达式（就是会附带执行next方法）
                 .then(handleResult)
             }
         )
       })(next)
     })
 }
+// 调用
+function *foo () {
+  try {
+    yield Promise.reject(123)
+  } catch (err) {
+    console.log(err)
+  }
+  yield 123
+  yield Promise.resolve(111)
+}
+run(foo).then(res => console.log(res))
 ```
 ::: tip 提示
 async函数其实就是生成器函数的语法糖，async函数就是将生成器函数的星号（*）替换成async，将yield替换成await，生成器函数的执行必须需要类似runner的执行器，async函数原理类似runner，返回一个promise

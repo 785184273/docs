@@ -151,4 +151,42 @@ function partition (arr, left, right) {
   }
   return L
 }
+quickSort([5, 2, 4, 6, 1, 7, 8, 3])
+```
+
+## 计数排序
+计数排序使用一个用来存储每个元素在原始数组中出现次数的临时数组，在所有元素都计数完成后，临时数组已排好序并可迭代以构建排序后的结果数组。
+
+计数排序是用来排序整数的优秀算法，时间复杂度为O(n+k)，k是临时数组的大小，但是它确实需要更多的内存来存放临时数组
+``` js
+  function countSort (arr) {
+    const { length } = arr
+    if (length < 2) return arr
+    const maxValue = findMaxValue(arr)
+
+    const countArr = Array(maxValue + 1) // 生成一个临时数组用于存放arr数组中元素个数的数组
+    arr.forEach(item => {
+      if (!countArr[item]) {
+        countArr[item] = 1
+      } else {
+        countArr[item]++
+      }
+    })
+    let sortIndex = 0
+    countArr.forEach((count, i) => {
+      while (count > 0) {
+        arr[sortIndex++] = i
+        count--
+      }
+    })
+    return arr
+  }
+
+  function findMaxValue (arr) {
+    let maxValue = arr[0]
+    for (let i = 1; i < arr.length; ++i) {
+      if (arr[i] > maxValue) maxValue = arr[i]
+    }
+    return maxValue
+  }
 ```
