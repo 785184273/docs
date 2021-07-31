@@ -28,6 +28,7 @@ module.exports = {
           ['/javascript/objectWrapper', '封装对象'],
           ['/javascript/scope', '作用域'],
           ['/javascript/letLoopAndClosure', '闭包和let循环'],
+          ['/javascript/offset', '偏移量']
           // ['/javascript/function', '函数']
         ]
       },

@@ -27,7 +27,7 @@ BubbleSort([1, 5, 2, 4, 3])
 ```
 ## 选择排序
 选择排序的思路是**找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推**。如图：
-![冒泡](/img/selection.gif)
+![选择](/img/selection.gif)
 ``` js
 function selectionSort (arr) {
   const { length } = arr
@@ -44,12 +44,12 @@ function selectionSort (arr) {
   }
   return arr
 }
-BubbleSort([1, 5, 2, 4, 3])
+selectionSort([1, 5, 2, 4, 3])
 ```
 
 ## 插入排序
 插入排序的主要思想是找到合适插入的位置，比如2会插入1,3,4,5,6中1-3之间。如图：
-![冒泡](/img/insert.gif)
+![插入](/img/insert.gif)
 ``` js
 function insertSort (arr) {
   const { length } = arr
@@ -71,7 +71,7 @@ insertSort([1, 5, 2, 4, 3])
 ::: tip 提示
   js中Array的sort方法用来排序js数组，ECMAScript没有定义用哪个排序算法，Mozilla Firfox使用的归并排序作为Array.prototype.sort的实现，而Chrome（V8引擎）使用了快速排序的变体来实现
 :::
-**归并排序一种分而治之算法，其思想是将原始数组切分为较小的数组，直到每个小数组只有一个元素，，然后再将小数组归并为较大的数组，直到最后只有一个排序完毕的大数组**。如图：
+**归并排序一种分而治之算法，其思想是将原始数组切分为较小的数组，直到每个小数组只有一个元素，然后再将小数组归并为较大的数组，直到最后只有一个排序完毕的大数组**。如图：
 ![归并](/img/merge.jpg)
 ``` js
 function mergeSort (arr) {
