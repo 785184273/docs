@@ -27,3 +27,46 @@
   ```
 ## 图示
   ![各个偏移量图示](/img/offset.png)
+
+## 拖拽示例
+``` html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			html, body {
+				margin: 0;
+				padding: 0;
+			}
+			.box {
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				top: 0;
+				left: 0;
+				border: 1px solid red;
+				background: pink;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box"></div>
+		<script type="text/javascript">
+			const box = document.querySelector('.box')
+			box.onmousedown = function (e) {
+				document.onmousemove = function (evt) {
+					box.style.left = evt.clientX - e.offsetX + "px";
+					box.style.top = evt.clientY - e.offsetY + "px";
+				}
+				document.onmouseup = function () {
+					document.onmousemove = null
+					document.onmouseup = null
+				}
+			}
+		</script>
+	</body>
+</html>
+```
+  

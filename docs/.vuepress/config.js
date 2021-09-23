@@ -12,6 +12,13 @@ module.exports = {
     // 开启搜索
     search: true,
     searchMaxSuggestions: 10,
+    algolia: {
+      apiKey: '25626fae796133dc1e734c6bcaaeac3c',
+      indexName: 'docsearch',
+    },
+    nav: [
+      { text: 'GitHub', link: 'https://github.com/785184273/docs' }
+    ],
     // displayAllHeaders: true, // 显示所有页面的标题链接
     sidebar: [
       ['/', '介绍'],
@@ -63,6 +70,7 @@ module.exports = {
         sidebarDepth: 2,    // 可选的, 默认值是 1
         children: [
           ['/other/fncCallComponent', 'vue组件函数式调用'],
+          ['/other/domDiff', '组件更新'],
         ]
       }
     ]
