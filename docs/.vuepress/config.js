@@ -65,12 +65,15 @@ module.exports = {
         ]
       },
       {
-        title: '其他',
+        title: 'vue',
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 2,    // 可选的, 默认值是 1
         children: [
-          ['/other/fncCallComponent', 'vue组件函数式调用'],
-          ['/other/domDiff', '组件更新'],
+          ['/vue/fncCallComponent', 'vue组件函数式调用'],
+					['/vue/newVue', 'new Vue过程'],
+					['/vue/watcher', 'watcher'],
+					['/vue/render', 'render'],
+          ['/vue/domDiff', '组件更新'],
         ]
       }
     ]

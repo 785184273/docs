@@ -272,6 +272,8 @@ return function patch (oldVnode, vnode, hydrating, removeOnly) {
 ```
 ## updateChildren
 当oldVnode和vnode都存在children时，则会调用updateChildren
+
+[更多domDiff算法详解参考](https://blog.csdn.net/qq2276031/article/details/106407647)
 ```js
 function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
     let oldStartIdx = 0 // oldCh的开始（左侧）索引位置
