@@ -83,6 +83,7 @@ export function initMixin (Vue: Class<Component>) {
 }
 ```
 在<code>src/platforms/web/entry-runtime-with-compiler.js</code>和<code>src/platforms/web/runtime/index.js</code>中，对Vue原型上定义了$mount方法
+## $mount
 ```js
 const mount = Vue.prototype.$mount // 对src/platforms/web/runtime/index.js中定义的$mount方法进行缓存
 // 重新定义$mount方法
@@ -182,6 +183,7 @@ Vue.prototype.$mount = function (
 }
 ```
 接着调用<code>mountComponent</code>方法，在<code>src/core/instance/lifecycle.js</code>中定义
+## mountComponent
 ```js
 export function mountComponent (
   vm: Component, // 当前实例对象

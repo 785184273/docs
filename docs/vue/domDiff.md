@@ -1,7 +1,5 @@
-# 概述
+# 组件更新
 vue的核心是数据驱动和组件化，而当组件更新时主要核心则是domDiff算法
-
-在lifecycleMixin方法中对Vue构造函数进行了一系列的原型扩展，其中包含原型方法Vue.prototype._update
 
 该方法包含两个参数，第一个参数vnode，在实例化Vue过程中，会实例化一个渲染watcher，在实例化该watcher过程中会调用当前实例的_update（原型方法）方法，而该方法的vnode则由当前实例的_render（原型方法）方法生成并返回。第二个参数主要是在服务端渲染使用，可略过分析。
 
@@ -9,15 +7,6 @@ vue的核心是数据驱动和组件化，而当组件更新时主要核心则�
 
 初始化渲染和页面更新渲染都会调用__patch__方法
 ```js
-export let activeInstance: any = null
-export function setActiveInstance(vm: Component) {
-  const prevActiveInstance = activeInstance
-  activeInstance = vm
-  return () => {
-    activeInstance = prevActiveInstance
-  }
-}
-
 Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
   const vm: Component = this
   const prevEl = vm.$el

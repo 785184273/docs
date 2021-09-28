@@ -73,6 +73,7 @@ module.exports = {
 					['/vue/newVue', 'new Vue过程'],
 					['/vue/watcher', 'watcher'],
 					['/vue/render', 'render'],
+					['/vue/update', 'update'],
           ['/vue/domDiff', '组件更新'],
         ]
       }
