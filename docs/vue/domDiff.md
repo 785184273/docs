@@ -23,19 +23,9 @@ Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
     vm.$el = vm.__patch__(prevVnode, vnode)
   }
   restoreActiveInstance() // 实例重置
-  // update __vue__ reference
-  if (prevEl) {
-    prevEl.__vue__ = null
-  }
-  if (vm.$el) {
-    vm.$el.__vue__ = vm
-  }
-  // if parent is an HOC, update its $el as well
-  if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
-    vm.$parent.$el = vm.$el
-  }
-  // updated hook is called by the scheduler to ensure that children are
-  // updated in a parent's updated hook.
+  
+  // ......
+
 }
 ```
 在组件更新时使用到较多的工具函数
@@ -92,32 +82,9 @@ return function patch (oldVnode, vnode, hydrating, removeOnly) {
       patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly) // 如果是相同的vnode则会调用patchVnode
     } else { // oldVnode和Vnode不是相同的虚拟dom时
       if (isRealElement) { // 当oldVnode为node节点时
-        // mounting to a real element
-        // check if this is server-rendered content and if we can perform
-        // a successful hydration.
+			
+        // ......
 
-        // 服务端渲染部分可略过
-        if (oldVnode.nodeType === 1 && oldVnode.hasAttribute(SSR_ATTR)) {
-          oldVnode.removeAttribute(SSR_ATTR)
-          hydrating = true
-        }
-        if (isTrue(hydrating)) {
-          if (hydrate(oldVnode, vnode, insertedVnodeQueue)) {
-            invokeInsertHook(vnode, insertedVnodeQueue, true)
-            return oldVnode
-          } else if (process.env.NODE_ENV !== 'production') {
-            warn(
-              'The client-side rendered virtual DOM tree is not matching ' +
-              'server-rendered content. This is likely caused by incorrect ' +
-              'HTML markup, for example nesting block-level elements inside ' +
-              '<p>, or missing <tbody>. Bailing hydration and performing ' +
-              'full client-side render.'
-            )
-          }
-        }
-        // either not server-rendered, or hydration failed.
-        // create an empty node and replace it
-        oldVnode = emptyNodeAt(oldVnode) // 将真实node节点转换为虚拟dom
       }
 
       // replacing existing element
@@ -169,7 +136,7 @@ return function patch (oldVnode, vnode, hydrating, removeOnly) {
 
       // destroy old node
       if (isDef(parentElm)) {
-        removeVnodes([oldVnode], 0, 0) // 删除oldVnode
+        removeVnodes([oldVnode], 0, 0) // 销毁删除oldVnode
       } else if (isDef(oldVnode.tag)) {
         invokeDestroyHook(oldVnode)
       }
@@ -196,34 +163,7 @@ return function patch (oldVnode, vnode, hydrating, removeOnly) {
       return
     }
 
-    if (isDef(vnode.elm) && isDef(ownerArray)) {
-      // clone reused vnode
-      vnode = ownerArray[index] = cloneVNode(vnode)
-    }
-
-    const elm = vnode.elm = oldVnode.elm // 将oldVnode的elm引用赋值给vnode.elm
-
-    if (isTrue(oldVnode.isAsyncPlaceholder)) {
-      if (isDef(vnode.asyncFactory.resolved)) {
-        hydrate(oldVnode.elm, vnode, insertedVnodeQueue)
-      } else {
-        vnode.isAsyncPlaceholder = true
-      }
-      return
-    }
-
-    // reuse element for static trees.
-    // note we only do this if the vnode is cloned -
-    // if the new node is not cloned it means the render functions have been
-    // reset by the hot-reload-api and we need to do a proper re-render.
-    if (isTrue(vnode.isStatic) &&
-      isTrue(oldVnode.isStatic) &&
-      vnode.key === oldVnode.key &&
-      (isTrue(vnode.isCloned) || isTrue(vnode.isOnce))
-    ) {
-      vnode.componentInstance = oldVnode.componentInstance
-      return
-    }
+    // ......
 
     let i
     const data = vnode.data
