@@ -74,6 +74,7 @@ module.exports = {
 					['/vue/watcher', 'watcher'],
 					['/vue/render', 'render'],
 					['/vue/update', 'update'],
+					['/vue/mergeOption', '参数合并'],
           ['/vue/domDiff', '组件更新'],
         ]
       }
