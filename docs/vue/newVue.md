@@ -1,5 +1,10 @@
 # new Vue
-<code>new</code>关键字代表实例化一个对象，那么Vue可能是一个构造函数<code>function Vue</code>也可能是一个类<code>Class Vue</code>，从入口文件进行分析，<code>src/core/instance/index.js</code>中，Vue作为一个构造函数存在
+
+## 前提
+
+**之后的小节都涉及到对Vue2.x源码的分析，需要读者对Vue2.x的使用有一定的了解，最好使用Vue2.x开发过大型项目，我会尽可能口语化的解释其中的一些原理（毕竟也是菜鸡），如未使用过建议先多次阅读[官方文档](https://cn.vuejs.org/)**
+
+<code>new</code>关键字代表实例化一个对象，那么Vue可能是一个构造函数<code>function Vue</code>也可能是一个类<code>Class Vue</code>，从入口文件进行分析，<code>src/core/instance/index.js</code>中，<code>Vue</code>作为一个构造函数存在
 ```js
 function Vue (options) {
 	if (process.env.NODE_ENV !== 'production' &&
@@ -20,7 +25,7 @@ renderMixin(Vue)
 export default Vue
 	
 ```
-<code>new Vue</code>会调用原型上的<code>_init</code>方法，该方法在initMixin中扩展，文件路径为<code>src/core/instance/init.js</code>
+<code>new Vue</code>会调用原型上的<code>_init</code>方法，该方法在<code>initMixin</code>中扩展，文件路径为<code>src/core/instance/init.js</code>
 ```js
 export function initMixin (Vue: Class<Component>) {
   Vue.prototype._init = function (options?: Object) { // options为new Vue时传递的参数对象
@@ -82,8 +87,12 @@ export function initMixin (Vue: Class<Component>) {
   }
 }
 ```
-在<code>src/platforms/web/entry-runtime-with-compiler.js</code>和<code>src/platforms/web/runtime/index.js</code>中，对Vue原型上定义了$mount方法
+<code>_init</code>方法主要做了参数合并（使用<code>mergeOptions</code>方法），和一些初始化工作（初始化生命周期、初始化events、初始化渲染、初始化注入、初始化<code>State</code>、初始化<code>Provide</code>），然后对实例化参数对象中的<code>el</code>做了次判断，如果存在则调用<code>vm.$mount</code>方法
+
+**参数合并和初始化工作在后续的小节中再讲解，先主要看整个页面渲染的过程<code>Vue</code>是怎么处理的**
+
 ## $mount
+在<code>src/platforms/web/entry-runtime-with-compiler.js</code>和<code>src/platforms/web/runtime/index.js</code>中，在<code>Vue</code>原型上定义了<code>$mount</code>方法
 ```js
 const mount = Vue.prototype.$mount // 对src/platforms/web/runtime/index.js中定义的$mount方法进行缓存
 // 重新定义$mount方法
@@ -169,7 +178,9 @@ function getOuterHTML (el: Element): string {
   }
 }
 ```
-在重新定义的<code>$mount</code>方法中主要是对<code>el</code>元素和<code>template</code>的获取，然后将<code>template</code>编译为<code>render</code>函数添加在<code>$options</code>中，如果我们在实例化对象时自定义了<code>render</code>方法，则可跳过编译直接执行缓存的<code>mount</code>方法
+首先对<code>src/platforms/web/runtime/index.js</code>中定义的<code>$mount</code>方法进行缓存
+
+在重新定义的<code>$mount</code>方法中主要是对<code>el</code>元素和<code>template</code>的获取，然后将<code>template</code>编译为<code>render</code>函数添加在<code>$options</code>中，如果我们在实例化对象时在参数对象中自定义了<code>render</code>方法，则可跳过编译直接执行缓存的<code>$mount</code>方法
 
 <code>src/platforms/web/runtime/index.js</code>中定义的<code>$mount</code>方法
 ```js
@@ -260,4 +271,4 @@ export function mountComponent (
   return vm
 }
 ```
-<code>mountComponent</code>主要是实例化一个渲染<code>watcher</code>，然后执行<code>mounted</code>生命周期钩子，完成挂载，主要核心是<code>updateComponent</code>回调函数中的<code>vm._update</code>和<code>vm._render</code>
+<code>mountComponent</code>主要是实例化一个渲染<code>watcher</code>，然后再实例化过程中调用<code>updateComponent</code>方法（核心是<code>updateComponent</code>回调函数中的<code>vm._update</code>和<code>vm._render</code>），接着执行<code>mounted</code>生命周期钩子，完成挂载，下一小节简单看下<code>Watcher</code>部分。

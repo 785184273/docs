@@ -1,5 +1,7 @@
 # render
-<code>vm._render</code>方法主要是通过<code>src/core/instance/render.js</code>文件<code>export</code>出去的<code>renderMixin</code>为<code>Vue</code>扩展的原型方法:
+<code>vm._render</code>方法定义在<code>src/core/instance/render.js</code>文件中。
+
+通过<code>renderMixin</code>方法在<code>Vue</code>的原型上扩展:
 ```js
 Vue.prototype._render = function (): VNode {
 	const vm: Component = this
@@ -33,9 +35,9 @@ Vue.prototype._render = function (): VNode {
 	return vnode
 }
 ```
-调用<code>_render</code>方法，会走到<code>$options</code>参数中<code>render</code>方法的执行，并为该方法传入<code>vm.$createElement</code>，<code>render</code>方法会返回一个vnode，<code>_render</code>方法中会为返回的<code>vnode</code>设置<code>parent</code>，<code>Vue</code>根实例该属性为<code>undefined</code>，组件实例该属性为组件<code>vnode</code>
+调用<code>_render</code>方法，会走到<code>$options</code>参数中<code>render</code>方法的执行，并为该方法传入<code>vm.$createElement</code>，<code>render</code>方法会返回一个<code>vnode</code>，<code>_render</code>方法中会为返回的<code>vnode</code>设置<code>parent</code>，如果vm为<code>Vue</code>的根实例，则该属性为<code>undefined</code>，如果vm为组件实例，则该属性为组件<code>vnode</code>（占位符<code>vnode</code>）
 
-在<code>Vue</code>构造函数中，实例化<code>Vue</code>时会初始化渲染<code>initRender</code>，会为当前vm实例添加<code>$createElement</code>
+在<code>Vue</code>构造函数中，实例化<code>Vue</code>实例时会初始化渲染<code>initRender</code>，会为当前<code>vm</code>添加<code>$createElement</code>
 ```js
 export function initRender (vm: Component) {
   vm._vnode = null // the root of the child tree
@@ -51,7 +53,7 @@ export function initRender (vm: Component) {
 
 }
 ```
-在<code>Vue</code>官方文档的渲染函数一节有详细描述<code>render</code>方法的使用，比如：
+在<code>Vue</code>官方文档的[渲染函数](https://cn.vuejs.org/v2/guide/render-function.html)一节中有详细描述<code>render</code>方法的使用，比如：
 ```js
 const vm = new Vue({
 	el: '#app',
@@ -63,7 +65,7 @@ const vm = new Vue({
 	}
 })
 ```
-参数<code>h</code>就相当于<code>vm.$createElement</code>，<code>vm.$createElement</code>函数内部通过调用<code>createElement</code>返回<code>vnode</code>，所以在看<code>createElement</code>之前先简单看下vnode部分，定义在<code>src/core/vdom/vnode.js</code>中
+参数<code>h</code>就相当于<code>vm.$createElement</code>，<code>vm.$createElement</code>函数内部通过调用<code>createElement</code>返回<code>vnode</code>，所以在看<code>createElement</code>之前先简单看下对<code>VNode</code>定义的部分，定义在<code>src/core/vdom/vnode.js</code>中。
 ## Vnode(Virtual DOM)
 ```js
 export default class VNode {
@@ -138,7 +140,7 @@ export default class VNode {
   }
 }
 ```
-<code>vnode</code>其实就是通过<code>new</code>一个<code>Vnode</code>类的实例，<code>tag, data, children, text, elm</code>...等，都是vnode实例的属性
+<code>vnode</code>其实就是通过<code>new</code>一个<code>VNode</code>类的实例（和<code>Vue</code>使用构造函数不一样，而是使用<code>VNode</code>类），<code>tag, data, children, text, elm</code>...等，都是vnode实例的属性
 
 ## createElement
 在<code>src/core/vdom/create-element.js</code>中可找到<code>createElement</code>方法的定义:
@@ -358,6 +360,6 @@ function normalizeArrayChildren (children: any, nestedIndex?: string): Array<VNo
   return res
 }
 ```
-<code>normalizeArrayChildren</code>的参数<code>children</code>为一个数组，可以是一维数组也可以是多维数组，遍历<code>children</code>的每一项，如果子项是数组且<code>length > 0</code>，则递归调用<code>normalizeArrayChildren</code>，如果子项通过<code>primitive</code>方法验证，则创建文本类型的<code>vnode</code>添加到<code>res</code>中，遍历过程中相邻的文本内容会合并成一个文本类型的<code>vnode</code>，相邻的文本类型的<code>vnode</code>也会合并成一个文本类型的<code>vnode</code>，然后返回<code>res</code>，且返回的<code>res</code>保证只有一项（<code>res.length</code>）为1
+<code>normalizeArrayChildren</code>的参数<code>children</code>为一个数组，可以是一维数组也可以是多维数组，遍历<code>children</code>的每一项，如果子项是数组且<code>length > 0</code>，则递归调用<code>normalizeArrayChildren</code>，如果子项通过<code>primitive</code>方法验证，则创建文本类型的<code>vnode</code>添加到<code>res</code>中，遍历过程中相邻的文本内容会合并成一个文本类型的<code>vnode</code>，相邻的文本类型的<code>vnode</code>也会合并成一个文本类型的<code>vnode</code>，然后返回<code>res</code>，且返回的<code>res</code>保证只有一项（<code>res.length</code>为1）
 
-<code>render</code>函数创建vnode就是这么个过程，接下来分析<code>updateComponent</code>中<code>vm._update</code>方法
+<code>render</code>函数创建<code>vnode</code>就是这么个过程，接下来分析<code>updateComponent</code>中<code>vm._update</code>方法

@@ -1,5 +1,5 @@
 # Watcher
-在上一节的new Vue过程中说到<code>mountComponent</code>方法中会实例化一个渲染<code>watcher</code>，代码路径：<code>src/core/observer/watcher.js</code>
+在上一节的<code>new Vue</code>过程中说到<code>mountComponent</code>方法中会实例化一个渲染<code>watcher</code>，相关部分定义在<code>src/core/observer/watcher.js</code>，<code>Watcher</code>使用<code>Class</code>定义，而非构造函数。
 
 根据上一节<code>vm</code>挂载先看部分代码
 ```js
@@ -33,7 +33,7 @@ export default class Watcher {
     if (isRenderWatcher) { // 判断是否是渲染watcher
       vm._watcher = this
     }
-    vm._watchers.push(this) // 将当前watcher实例添加到当前vue实例的_watchers数组中，在vue实例化过程中初始化states时定义了vm._watchers
+    vm._watchers.push(this) // 将当前watcher实例添加到当前vm.watchers数组中，在vue实例化过程中初始化states时定义了vm._watchers
     // options
     if (options) { // watcher选项
       this.deep = !!options.deep
@@ -101,10 +101,12 @@ export default class Watcher {
     }
     return value // 返回value，只有computed watcher会存在返回值value
   }
-	//  ...
+	
+  //  ...
+
 }
 ```
-实例化<code>watcher</code>时会走到<code>constructor</code>构造函数部分，根据<code>this.lazy</code>判断是否执行回调<code>this.getter</code>，从上一节<code>new Watcher</code>的参数：
+实例化<code>watcher</code>时会走到<code>constructor</code>构造函数部分，根据<code>this.lazy</code>判断是否执行回调<code>this.getter</code>，根据上一节<code>new Watcher</code>的参数：
 ```js
 updateComponent = () => {
 	vm._update(vm._render(), hydrating)

@@ -35,7 +35,7 @@ Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
 <code>vm._update</code>值得我们学习的一个点是<code>setActiveInstance</code>方法，利用闭包的方式实现对<code>vm</code>实例的缓存，调用`vm.__patch__`会返回一个真实<code>dom</code>重新赋值给<code>vm.$el</code>
 
 ## patch
-<code>Vue.prototype._update</code>的核心就是`__patch__`方法，定义在Vue的原型对象上，在<code>src/platforms/web/runtime/index.js</code>中可查看
+<code>Vue.prototype._update</code>的核心就是`__patch__`方法，定义在<code>Vue</code>的原型对象上，在<code>src/platforms/web/runtime/index.js</code>中可查看
 ```js
 // install platform patch function
 Vue.prototype.__patch__ = inBrowser ? patch : noop
