@@ -4,7 +4,7 @@
 
 **之后的小节都涉及到对Vue2.x源码的分析，需要读者对Vue2.x的使用有一定的了解，最好使用Vue2.x开发过大型项目，我会尽可能口语化的解释其中的一些原理（毕竟也是菜鸡），如未使用过建议先多次阅读[官方文档](https://cn.vuejs.org/)**
 
-<code>new</code>关键字代表实例化一个对象，那么Vue可能是一个构造函数<code>function Vue</code>也可能是一个类<code>Class Vue</code>，从入口文件进行分析，<code>src/core/instance/index.js</code>中，<code>Vue</code>作为一个构造函数存在
+<code>new</code>关键字代表实例化一个对象，那么<code>Vue</code>可能是一个构造函数<code>function Vue</code>也可能是一个类<code>Class Vue</code>，从入口文件进行分析，<code>src/core/instance/index.js</code>中，<code>Vue</code>作为一个构造函数存在
 ```js
 function Vue (options) {
 	if (process.env.NODE_ENV !== 'production' &&

@@ -107,7 +107,7 @@ export default class VNode {
     componentOptions?: VNodeComponentOptions,
     asyncFactory?: Function
   ) {
-		// 下面是对vnode属性的定义
+    // 下面是对vnode属性的定义
     this.tag = tag
     this.data = data
     this.children = children
