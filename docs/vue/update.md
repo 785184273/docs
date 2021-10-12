@@ -417,4 +417,5 @@ function insert (parent, elm, ref) {
 }
 ```
 
-至此，完成了从把模板和数据渲染成最终的dom过程的分析
+至此，完成了从把模板和数据渲染成最终的dom过程的分析，可以用下图更直观的看到整个过程
+![renderProcess](/img/renderProcess.png)

@@ -45,7 +45,7 @@ export function initState (vm: Component) {
   }
 }
 ```
-从代码中可以看出，其中包含了对<code>props</code>，<code>methods</code>，<code>data</code>，<code>computed</code>，<code>watch</code>的初始化，先分析对<code>data</code>的初始化
+从代码中可以看出，其中包含了对<code>props</code>，<code>methods</code>，<code>data</code>，<code>computed</code>，<code>watch</code>的初始化，这小节先分析对<code>data</code>的初始化
 ## initData
 <code>initData</code>方法和<code>initState</code>方法都定义在同一文件中
 ```js
@@ -58,7 +58,7 @@ function initData (vm: Component) {
   // ......
 }
 ```
-在深入分析<code>initData</code>之前，需要注意的一个点就是，参数合并在初始化<code>State</code>之前，根据上节参数合并中对<code>data</code>合并策略的分析，合并后<code>data</code>会是一个函数，所以会调用<code>getData</code>方法获取合并后的<code>data</code>数据，<code>getData</code>方法和<code>initData</code>同样定义在一个文件中
+在深入分析<code>initData</code>之前，需要注意的一个点就是，参数合并在初始化<code>State</code>之前，根据上节参数合并中对<code>data</code>合并策略的分析，合并后<code>data</code>会是一个函数，所以会调用<code>getData</code>方法，获取合并后的<code>data</code>数据，<code>getData</code>方法和<code>initData</code>同样定义在一个文件中
 ```js
 export function getData (data: Function, vm: Component): any {
   // #7573 disable dep collection when invoking data getters
@@ -73,7 +73,7 @@ export function getData (data: Function, vm: Component): any {
   }
 }
 ```
-<code>getData</code>方法返回<code>data</code>方法调用的返回结果，回到<code>initData</code>方法，这时<code>data</code>和<code>vm._data</code>都指向<code>getData</code>方法返回对象的指针，接着分析
+<code>getData</code>方法返回<code>data</code>方法调用的返回结果，回到<code>initData</code>方法，这时<code>data</code>和<code>vm._data</code>都指向<code>getData</code>方法所返回对象的指针，接着分析后续代码
 ```js
 function initData (vm: Component) {
   let data = vm.$options.data
@@ -219,7 +219,7 @@ export class Observer {
   }
 }
 ```
-<code>Observer</code>相较于<code>VNode</code>和<code>Watcher</code>的定义较简单，由于实例化会首先进入到<code>constructor</code>，为当前<code>observer</code>实例分配一个<code>Dep</code>实例，然后调用<code>def</code>方法将实例<code>observer</code>赋值给`value.__ob__`，然后判断<code>value</code>是否为数组，如果为数组则为数组添加重写的原型（数组部分的分析放在后面，这里先分析为对象的情况），否则调用实例方法<code>walk</code>，在该方法中循环<code>value</code>中的每个<code>key</code>并调用<code>defineReactive</code>方法
+<code>Observer</code>相较于<code>VNode</code>和<code>Watcher</code>的定义较简单，由于实例化过程会首先进入到<code>constructor</code>，为当前<code>observer</code>实例分配一个<code>Dep</code>实例，然后调用<code>def</code>方法将当前实例<code>observer</code>赋值给`value.__ob__`，然后判断<code>value</code>是否为数组，如果为数组则为数组添加重写的原型（数组部分的分析放在后面，这里先分析为对象的情况），否则调用实例方法<code>walk</code>，在该方法中循环<code>value</code>中的每个<code>key</code>并调用<code>defineReactive</code>方法
 ```js
 export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
   Object.defineProperty(obj, key, {
@@ -296,5 +296,136 @@ export function defineReactive (
   })
 }
 ```
-<code>defineReactive</code>方法内部主要是对每个属性分配一个<code>dep</code>实例，动态的添加<code>Getter</code>和<code>Setter</code>，接着获取当前属性的描述符对象，如果当前属性的值<code>val</code>为一个对象，则递归调用<code>observe</code>方法，这样无论对象的结构有多深都能为每个属性添加<code>Getter</code>和<code>Setter</code>，<code>Getter</code>中主要做的是依赖收集，而<code>Setter</code>中则主要做的是派发更新，下一小节将分析依赖收集部分
+<code>defineReactive</code>方法内部主要是对每个属性分配一个<code>dep</code>实例，动态的添加<code>Getter</code>和<code>Setter</code>，接着获取当前属性的描述符对象，如果当前属性的值<code>val</code>为一个对象，则递归调用<code>observe</code>方法，这样无论对象的结构有多深都能为每个属性添加<code>Getter</code>和<code>Setter</code>，<code>Getter</code>中主要做的是依赖收集，而<code>Setter</code>中则主要做的是派发更新
+
+## 数组部分响应式
+继续回到上面<code>Observer</code>的<code>constructor</code>中对<code>value</code>的判断，当<code>value</code>为数组时，使用<code>hasProto</code>判断对象是否有`__proto__`属性，如果有原型对象则调用<code>protoAugment</code>方法，如果没有原型对象则调用<code>copyAugment</code>方法
+```js
+
+// src/core/util/env.js
+export const hasProto = '__proto__' in {}
+
+// src/core/observer/index.js
+
+const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
+export class Observer {
+  value: any;
+  dep: Dep;
+  vmCount: number; // number of vms that have this object as root $data
+
+  constructor (value: any) {
+    this.value = value
+    this.dep = new Dep()
+    this.vmCount = 0
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      if (hasProto) {
+        protoAugment(value, arrayMethods)
+      } else {
+        copyAugment(value, arrayMethods, arrayKeys)
+      }
+      this.observeArray(value)
+    } else {
+      // ......
+    }
+  }
+ 
+  // ......
+	
+}
+```
+先看下<code>arrayMethods</code>的定义，可在<code>src/core/observer/array.js</code>中查看
+```js
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+
+const methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+
+/**
+ * Intercept mutating methods and emit events
+ */
+methodsToPatch.forEach(function (method) {
+  // cache original method
+  const original = arrayProto[method]
+  def(arrayMethods, method, function mutator (...args) {
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    let inserted
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args
+        break
+      case 'splice':
+        inserted = args.slice(2)
+        break
+    }
+    if (inserted) ob.observeArray(inserted)
+    // notify change
+    ob.dep.notify()
+    return result
+  })
+})
+```
+上述代码主要是定义一个包含数组的响应式方法的对象，逻辑比较简单清晰，首先缓存原始数组的原型对象<code>arrayProto</code>，然后使用<code>Object.create(arrayProto)</code>创建一个原型为原始数组原型的<code>arrayMethods</code>对象，然后循环遍历<code>methodsToPatch</code>中定义的响应式方法名，根据遍历的方法名在缓存的原始数组原型对象<code>arrayProto</code>中查找对应的方法再做一个缓存处理<code>originnal</code>，利用<code>def</code>方法（上面分析过<code>def</code>方法的实现），在<code>arrayMethods</code>对象中定义，和缓存方法<code>originnal</code>同名的响应式方法（同名可以实现覆盖作用，这主要涉及到原型链的查找原理，原型链部分这里不做讲解），在调用定义的响应式方法时，会先通过<code>apply</code>方法在指定作用域调用缓存的原始数组原型对象的同名方法，然后通过<code>switch</code>分支语句拿到<code>push</code>，<code>unshift</code>，<code>splice</code>方法中新增的参数，然后通过当前数组<code>ob</code>对象的<code>observeArray</code>实例方法对新增的参数循环递归调用<code>observe</code>方法（<code>observe</code>方法在上面已经做过讲解），再通过<code>ob.dep.notify</code>方法派发更新
+
+接着对<code>Observer</code>类中数组部分的分析
+如果有原型对象则调用<code>protoAugment</code>方法，传入的参数分别为类型为<code>Array</code>的数组<code>value</code>，和上面分析的包含数组响应式方法的对象<code>arrayMethods</code>
+```js
+function protoAugment (target, src: Object) {
+	/* eslint-disable no-proto */
+	target.__proto__ = src
+	/* eslint-enable no-proto */
+}
+```
+在<code>protoAugment</code>中直接是直接重写<code>target</code>的原型对象，也可以使用[<code>Object.setPrototypeOf</code>](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf)方法设置指定对象的原型
+
+
+如果没有原型对象则调用<code>copyAugment</code>方法，传入的参数同样为类型为<code>Array</code>的数组<code>value</code>，数组响应式方法对象<code>arrayMethods</code>和<code>arrayMethods</code>对象的响应式方法名的数组集合
+```js
+function copyAugment (target: Object, src: Object, keys: Array<string>) {
+  for (let i = 0, l = keys.length; i < l; i++) {
+    const key = keys[i]
+    def(target, key, src[key])
+  }
+}
+```
+<code>copyAugment</code>方法是直接将<code>arrayMethods</code>中定义的响应式方法拷贝到<code>target</code>参数数组中
+
+接着<code>Observer</code>类中会调用当前<code>ob</code>实例的<code>observeArray</code>方法，循环<code>value</code>中的每一项并递归调用<code>observe</code>方法
+```js
+export class Observer {
+  value: any;
+  dep: Dep;
+  vmCount: number; // number of vms that have this object as root $data
+
+  constructor (value: any) {
+    // ......
+    if (Array.isArray(value)) {
+			
+      // ......
+			
+      this.observeArray(value)
+    } else {
+      // ......
+    }
+  }
+  observeArray (items: Array<any>) {
+    for (let i = 0, l = items.length; i < l; i++) {
+      observe(items[i])
+    }
+  }
+}
+```
+这样数组部分的响应式便完成，下一小节将分析依赖收集部分
+
+
 

@@ -1,11 +1,11 @@
 # 组件更新
-vue的核心是数据驱动和组件化，而当组件更新时主要核心则是domDiff算法
+<code>vue</code>的核心是数据驱动和组件化，而当组件更新时主要核心则是<code>domDiff</code>算法
 
-该方法包含两个参数，第一个参数vnode，在实例化Vue过程中，会实例化一个渲染watcher，在实例化该watcher过程中会调用当前实例的_update（原型方法）方法，而该方法的vnode则由当前实例的_render（原型方法）方法生成并返回。第二个参数主要是在服务端渲染使用，可略过分析。
+该方法包含两个参数，第一个参数<code>vnode</code>，在实例化<code>Vue</code>过程中，会实例化一个渲染<code>watcher</code>，在实例化该<code>watcher</code>过程中会调用当前实例的<code>_update</code>（原型方法）方法，而该方法的<code>vnode</code>则由当前实例的<code>_render</code>（原型方法）方法生成并返回。第二个参数主要是在服务端渲染使用，可略过分析。
 
-在实例化Vue过程中，会对data中每个属性进行遍历然后为每个属性分配一个订阅者对象dep，使用Object.defineProperty为每个属性定义Getter和Setter，在render方法生成虚拟dom过程中，对使用到的数据（data和props中的数据）进行依赖收集（为每个属性的dep实例的subs中添加watcher），当对数据进行修改操作时，则会触发依赖更新，会重新执行一次_render方法调用（意味着重新生成Vnode，也会重新调用一次_update方法）
+在实例化<code>Vue</code>过程中，会对<code>data</code>中每个属性进行遍历然后为每个属性分配一个订阅者对象<code>dep</code>，使用<code>Object.defineProperty</code>为每个属性定义<code>Getter</code>和<code>Setter</code>，在<code>render</code>方法生成虚拟<code>dom</code>过程中，对使用到的数据（<code>data</code>和<code>props</code>中的数据）进行依赖收集（为每个属性的<code>dep</code>实例的<code>subs</code>中添加<code>watcher</code>），当对数据进行修改操作时，则会触发依赖更新，会重新执行一次<code>_render</code>方法调用（意味着重新生成<code>Vnode</code>，也会重新调用一次<code>_update</code>方法）
 
-初始化渲染和页面更新渲染都会调用__patch__方法
+初始化渲染和页面更新渲染都会调用`__patch__`方法
 ```js
 Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
   const vm: Component = this
@@ -60,7 +60,7 @@ function isDef (v: any): boolean %checks {
 ```
 
 ## oldVnode和vnode不是相同的虚拟dom
-页面更新时，当oldVnode和vnode不是相同的vnode则会创建新的dom，并更新占位符节点，删除oldVnode
+页面更新时，当<code>oldVnode</code>和<code>vnode</code>不是相同的<code>vnode</code>则会创建新的<code>dom</code>，并更新占位符节点，删除<code>oldVnode</code>
 ```js
 return function patch (oldVnode, vnode, hydrating, removeOnly) {
   if (isUndef(vnode)) { // 新生成的Vnode为undefined，例如template模板中的所有html代码都被删除
@@ -149,7 +149,7 @@ return function patch (oldVnode, vnode, hydrating, removeOnly) {
 
 ```
 ## oldVnode和vnode为相同的虚拟dom
-当oldVnode和vnode是相同的虚拟dom时，则会调用patchVnode方法
+当<code>oldVnode</code>和<code>vnode</code>是相同的虚拟<code>dom</code>时，则会调用<code>patchVnode</code>方法
 ```js
   function patchVnode (
     oldVnode,
@@ -200,7 +200,7 @@ return function patch (oldVnode, vnode, hydrating, removeOnly) {
   }
 ```
 ## updateChildren
-当oldVnode和vnode都存在children时，则会调用updateChildren
+当<code>oldVnode</code>和<code>vnode</code>都存在<code>children</code>时，则会调用<code>updateChildren</code>
 
 [更多domDiff算法详解参考](https://blog.csdn.net/qq2276031/article/details/106407647)
 ```js
