@@ -1,7 +1,7 @@
 # Watcher
 在上一节的<code>new Vue</code>过程中说到<code>mountComponent</code>方法中会实例化一个渲染<code>watcher</code>，相关部分定义在<code>src/core/observer/watcher.js</code>，<code>Watcher</code>使用<code>Class</code>定义，而非构造函数。
 
-根据上一节<code>vm</code>挂载先看部分代码
+<code>Wathcer</code>只是定义了很多实例属性，其实代码也不复杂，根据上一节<code>vm</code>挂载先看部分代码
 ```js
 export default class Watcher {
   vm: Component;
@@ -97,7 +97,7 @@ export default class Watcher {
         traverse(value)
       }
       popTarget() // 将当前watcher实例移除targetStack数组，并且将Dep.target赋值为targetStack数组中的最后一个watcher（如果有），没有则为undefined
-      this.cleanupDeps()
+      this.cleanupDeps() // 清除依赖
     }
     return value // 返回value，只有computed watcher会存在返回值value
   }

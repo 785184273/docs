@@ -2,7 +2,7 @@
 
 ## 前提
 
-**之后的小节都涉及到对Vue2.x源码的分析，需要读者对Vue2.x的使用有一定的了解，最好使用Vue2.x开发过大型项目，我会尽可能口语化的解释其中的一些原理（毕竟也是菜鸡），如未使用过建议先多次阅读[官方文档](https://cn.vuejs.org/)**
+**之后的小节都涉及到对Vue2.x源码的分析，需要读者对Vue2.x的使用有一定的了解，最好使用Vue2.x开发过大型项目，我会尽可能口语化的解释其中的一些原理（毕竟也是菜鸡），如未使用过Vue2.x建议先多次阅读[官方文档](https://cn.vuejs.org/)**
 
 <code>new</code>关键字代表实例化一个对象，那么<code>Vue</code>可能是一个构造函数<code>function Vue</code>也可能是一个类<code>Class Vue</code>，从入口文件进行分析，<code>src/core/instance/index.js</code>中，<code>Vue</code>作为一个构造函数存在
 ```js
@@ -87,7 +87,7 @@ export function initMixin (Vue: Class<Component>) {
   }
 }
 ```
-<code>_init</code>方法主要做了参数合并（使用<code>mergeOptions</code>方法），和一些初始化工作（初始化生命周期、初始化events、初始化渲染、初始化注入、初始化<code>State</code>、初始化<code>Provide</code>），然后对实例化参数对象中的<code>el</code>做了次判断，如果存在则调用<code>vm.$mount</code>方法
+<code>_init</code>方法主要做了参数合并（使用<code>mergeOptions</code>方法），和一些初始化工作（初始化生命周期、初始化<code>events</code>、初始化渲染、初始化注入、初始化<code>State</code>、初始化<code>Provide</code>），然后对实例化参数对象中的<code>el</code>做了层判断，如果存在则调用<code>vm.$mount</code>方法
 
 **参数合并和初始化工作在后续的小节中再讲解，先主要看整个页面渲染的过程<code>Vue</code>是怎么处理的**
 
@@ -180,7 +180,7 @@ function getOuterHTML (el: Element): string {
 ```
 首先对<code>src/platforms/web/runtime/index.js</code>中定义的<code>$mount</code>方法进行缓存
 
-在重新定义的<code>$mount</code>方法中主要是对<code>el</code>元素和<code>template</code>的获取，然后将<code>template</code>编译为<code>render</code>函数添加在<code>$options</code>中，如果我们在实例化对象时在参数对象中自定义了<code>render</code>方法，则可跳过编译直接执行缓存的<code>$mount</code>方法
+在重新定义的<code>$mount</code>方法中主要是对<code>el</code>元素和<code>template</code>的获取，然后将<code>template</code>编译为<code>render</code>函数添并加在<code>$options</code>中，如果我们在实例化<code>vm</code>对象时在参数对象中自定义了<code>render</code>方法，则可跳过编译直接执行缓存的<code>$mount</code>方法
 
 <code>src/platforms/web/runtime/index.js</code>中定义的<code>$mount</code>方法
 ```js
@@ -193,8 +193,9 @@ Vue.prototype.$mount = function (
   return mountComponent(this, el, hydrating)
 }
 ```
-接着调用<code>mountComponent</code>方法，在<code>src/core/instance/lifecycle.js</code>中定义
+接着在该方法内调用<code>mountComponent</code>方法
 ## mountComponent
+该方法在<code>src/core/instance/lifecycle.js</code>中定义
 ```js
 export function mountComponent (
   vm: Component, // 当前实例对象
