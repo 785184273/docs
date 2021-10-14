@@ -77,6 +77,7 @@ module.exports = {
 					['/vue/mergeOption', '参数合并'],
 					['/vue/observe', '响应式对象'],
 					['/vue/depCollection', '依赖收集'],
+					['/vue/notifyUpdate', '派发更新'],
           ['/vue/domDiff', '组件更新'],
         ]
       }
