@@ -78,6 +78,7 @@ module.exports = {
 					['/vue/observe', '响应式对象'],
 					['/vue/depCollection', '依赖收集'],
 					['/vue/notifyUpdate', '派发更新'],
+					['/vue/nextTick', 'nextTick'],
           ['/vue/domDiff', '组件更新'],
         ]
       }
