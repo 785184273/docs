@@ -54,7 +54,7 @@ export function defineReactive (
   })
 }
 ```
-当响应式对象的属性值发生变化时会触发对应的响应式<code>Setter</code>方法，在方法内部会先调用预先在该属性定义的<code>Getter</code>方法获取属性值<code>value</code>，并将修改的值<code>newVal</code>和<code>value</code>做一个比对，如果<code>value</code>和<code>newVal</code>为相同的值或者<code>value</code>和<code>newVal</code>都为<code>NaN</code>，则不会触发更新，接着会判断是否存在自定义<code>customSetter</code>，如果存在则调用该方法，<code>customSetter</code>后续小节会讲解到，如果只存在预先定义的<code>Getter</code>而没有<code>Setter</code>，相当于任何修改操作都无效，始终返回的都是固定值，所以直接<code>return</code>返回，如果存在预先定义的<code>Setter</code>则调用，否则将修改的<code>newVal</code>赋值给<code>val</code>，接着是根据修改的值<code>newVal</code>生成新的<code>childOb</code>，这里其实用到了闭包的思想，就不细说了，最后调用响应式对象属性的<code>dep.notify</code>方法实现派发更新
+当响应式对象的属性值发生变化时会触发对应的响应式<code>Setter</code>方法，在方法内部会先调用预先在该属性定义的<code>Getter</code>方法获取属性值<code>value</code>，并将修改的值<code>newVal</code>和<code>value</code>做一个比对，如果<code>value</code>和<code>newVal</code>为相同的值或者<code>value</code>和<code>newVal</code>都为<code>NaN</code>，则不会触发更新，接着会判断是否存在自定义<code>customSetter</code>，如果存在则调用该方法，<code>customSetter</code>后续小节会讲解到，如果只存在预先定义的<code>Getter</code>而没有<code>Setter</code>，相当于任何修改操作都无效，该属性为只读属性，始终返回的都是固定值，所以直接<code>return</code>返回，如果存在预先定义的<code>Setter</code>则调用，否则将修改的<code>newVal</code>赋值给<code>val</code>，接着是根据修改的值<code>newVal</code>生成新的<code>childOb</code>，这里其实用到了闭包的思想，就不细说了（只可意会不可言传了），最后调用响应式对象属性的<code>dep.notify</code>方法实现派发更新
 
 继续回到<code>src/core/observer/dep.js</code>文件中，查看<code>Dep</code>类中对<code>notify</code>方法的实现
 ```js
