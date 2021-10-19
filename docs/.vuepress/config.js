@@ -80,6 +80,7 @@ module.exports = {
 					['/vue/notifyUpdate', '派发更新'],
 					['/vue/nextTick', 'nextTick'],
 					['/vue/computed', '计算属性'],
+					['/vue/watch', '监听器'],
           ['/vue/domDiff', '组件更新'],
         ]
       }

@@ -4,17 +4,11 @@
 export function initState (vm: Component) {
   vm._watchers = []
   const opts = vm.$options
-  if (opts.props) initProps(vm, opts.props)
-  if (opts.methods) initMethods(vm, opts.methods)
-  if (opts.data) {
-    initData(vm)
-  } else {
-    observe(vm._data = {}, true /* asRootData */)
-  }
+	
+  // ......
+
   if (opts.computed) initComputed(vm, opts.computed) // 初始化计算属性
-  if (opts.watch && opts.watch !== nativeWatch) {
-    initWatch(vm, opts.watch)
-  }
+  // ......
 }
 ```
 <code>initComputed</code>和<code>initState</code>定义在同一文件中<code>src/core/instance/state.js</code>

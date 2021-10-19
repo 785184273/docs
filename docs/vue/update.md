@@ -1,7 +1,7 @@
 # update
 <code>Vue.prototype._render</code>方法返回的<code>vnode</code>，会传入到<code>vm._update</code>方法中，该方法在<code>src/core/instance/lifecycle.js</code>中的<code>lifecycleMixin</code>中扩展到<code>Vue</code>的原型对象上（<code>Vue.prototype._update</code>）
 
-该方法被调用的时机有两次，第一次为初始渲染页面，第二次则为数据更新的时候重新渲染，**这小节只分析初始渲染**，数据更新重新渲染放在[组件更新](http://localhost:8090/vue/domDiff.html)这一小节中
+该方法被调用的时机有两次，第一次为初始渲染页面，第二次则为数据更新的时候重新渲染，**这小节只分析初始渲染**，数据更新重新渲染放在[组件更新](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/domDiff.html)这一小节中
 ```js
 export let activeInstance: any = null
 export function setActiveInstance(vm: Component) {
