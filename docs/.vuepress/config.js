@@ -78,9 +78,11 @@ module.exports = {
 					['/vue/observe', '响应式对象'],
 					['/vue/depCollection', '依赖收集'],
 					['/vue/notifyUpdate', '派发更新'],
+					['/vue/set', '响应式set方法'],
 					['/vue/nextTick', 'nextTick'],
 					['/vue/computed', '计算属性'],
 					['/vue/watch', '监听器'],
+					['/vue/props', 'props'],
           ['/vue/domDiff', '组件更新'],
         ]
       }
