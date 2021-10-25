@@ -1,5 +1,8 @@
 # set
-<code>set</code>方法主要是为响应式对象中动态的添加响应式属性，该方法在全局方法<code>Vue.set</code>和实例方法<code>vm.$set</code>内被调用，分别在<code>src/core/global-api/index.js</code>和<code>src/core/instance/state.js</code>文件中可查看相关定义
+<code>set</code>方法主要是为响应式对象中动态的添加响应式属性，该方法在全局方法<code>Vue.set</code>和实例方法<code>vm.$set</code>内被调用，可分别在<code>src/core/global-api/index.js</code>和<code>src/core/instance/state.js</code>文件中可查看相关定义
+
+该方法会返回设置的响应式属性的值
+
 ```js
 // src/core/global-api/index.js
 Vue.set = set
@@ -133,3 +136,4 @@ export function set (target: Array<any> | Object, key: any, val: any): any {
 }
 ```
 如果<code>key</code>是响应式对象<code>target</code>的自身属性，则会直接修改值，如果<code>target</code>为<code>Vue</code>的实例化对象，或者为根<code>data</code>对象，则会报<code>warn</code>提示，如果<code>target</code>不是响应式对象则会直接做赋值处理，接着会直接调用<code>defineReactive</code>方法为响应式对象<code>target</code>动态添加响应式属性，并且调用响应式对象<code>target</code>对应的<code>dep.notify</code>方法派发更新
+
