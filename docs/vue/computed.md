@@ -11,6 +11,7 @@ export function initState (vm: Component) {
   // ......
 }
 ```
+## initComputed
 <code>initComputed</code>和<code>initState</code>定义在同一文件中<code>src/core/instance/state.js</code>
 ```js
 const computedWatcherOptions = { lazy: true }
@@ -60,6 +61,7 @@ function initComputed (vm: Component, computed: Object) {
 ```
 <code>initComputed</code>方法中，首先利用<code>Object.create(null)</code>创建一个没有原型的对象<code>watchers</code>，用于存储对应计算属性的<code>watcher</code>实例，接着循环遍历<code>computed</code>中定义的每个计算属性，并为每个计算属性实例化一个<code>watcher</code>，然后根据计算属性名称存储到<code>watchers</code>当中，接着将每个计算属性的名称在<code>vm.$data</code>，<code>vm.$options.props</code>，<code>vm.$options.methods</code>中做比对，看是否有重复的键名，如果重复则会触发<code>warn</code>提示，如果没有重名则会调用<code>defineComputed</code>方法
 
+## defineComputed
 <code>defineComputed</code>方法也定义在<code>src/core/instance/state.js</code>中
 ```js
 export function defineComputed (
@@ -95,7 +97,28 @@ export function defineComputed (
 ```
 <code>defineComputed</code>方法的逻辑非常简单，其实就是利用<code>Object.defineProperty</code>方法将每个属性代理在<code>vm</code>实例上，由于我们只是分析非服务端渲染部分，所以对象描述符中的<code>getter</code>方法会由<code>createComputedGetter</code>方法返回
 
-在深入分析前，我们可以使用如下例子进行后续逻辑的分析
+## createComputedGetter
+<code>createComputedGetter</code>方法和<code>definedComputed</code>方法定义在同一文件中
+```js
+function createComputedGetter (key) {
+  return function computedGetter () {
+    const watcher = this._computedWatchers && this._computedWatchers[key]
+    if (watcher) {
+      if (watcher.dirty) {
+        watcher.evaluate()
+      }
+      if (Dep.target) {
+        watcher.depend()
+      }
+      return watcher.value
+    }
+  }
+}
+```
+调用该方法，会返回<code>computedGetter</code>方法，当在<code>vm</code>实例上对该计算属性进行访问时，会先在<code>vm._computedWatchers</code>中找到对应的<code>watcher</code>，由于每个计算属性的<code>watcher</code>选项中<code>lazy</code>属性都为<code>true</code>，所以实例化每个计算属性的<code>watcher</code>过程中<code>watcher.dirty</code>初始也为<code>true</code>，接着会调用<code>watcher.evaluate</code>方法
+
+## 过程分析
+在深入分析前，我们可以借助如下例子进行后续逻辑的分析
 ```js
 new Vue({
 	el: '#app',
@@ -117,25 +140,6 @@ new Vue({
 	}
 })
 ```
-
-<code>createComputedGetter</code>方法和<code>definedComputed</code>方法定义在同一文件中
-```js
-function createComputedGetter (key) {
-  return function computedGetter () {
-    const watcher = this._computedWatchers && this._computedWatchers[key]
-    if (watcher) {
-      if (watcher.dirty) {
-        watcher.evaluate()
-      }
-      if (Dep.target) {
-        watcher.depend()
-      }
-      return watcher.value
-    }
-  }
-}
-```
-调用该方法，会返回<code>computedGetter</code>方法，当在<code>vm</code>实例上对该计算属性进行访问时，会先在<code>vm._computedWatchers</code>中找到对应的<code>watcher</code>，由于每个计算属性的<code>watcher</code>选项中<code>lazy</code>属性都为<code>true</code>，所以实例化每个计算属性的<code>watcher</code>过程中<code>watcher.dirty</code>初始也为<code>true</code>，接着会调用<code>watcher.evaluate</code>方法
 
 回到<code>Watcher</code>定义部分
 ```js

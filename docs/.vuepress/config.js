@@ -84,6 +84,7 @@ module.exports = {
 					['/vue/computed', '计算属性'],
 					['/vue/watch', '监听器'],
 					['/vue/props', 'props'],
+					['/vue/createComponent', 'createComponent'],
           ['/vue/domDiff', '组件更新'],
         ]
       }
