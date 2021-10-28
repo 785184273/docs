@@ -504,7 +504,7 @@ strats.watch = function (
       ? parent.concat(child)
       : Array.isArray(child) ? child : [child]
   }
-  return ret // 返回的ret对象中，每个key都对应一个数组val
+  return ret // 返回的ret对象中，每个key都对应一个
 }
 ```
 首先对<code>childVal</code>做是否存在判断，如果不存在则返回<code>Object.create(parent || null)</code>创建的对象，再利用<code>assertObjectType</code>对<code>childVal</code>做对象类型的断言判断，接着判断<code>parentVal</code>如果不存在，则直接返回<code>childVal</code>，如果条件都不成立则创建一个<code>ret</code>对象，将<code>parentVal</code>对象浅拷贝到<code>ret</code>中，再循环遍历<code>childVal</code>中的每个<code>key</code>，并根据遍历的<code>key</code>获取<code>ret</code>对象和<code>childVal</code>对象中的监听器，然后将每一项都重新设为数组，如果<code>ret</code>和<code>childVal</code>中都存在相同的监听器，则利用<code>concat</code>进行合并

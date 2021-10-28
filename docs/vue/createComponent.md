@@ -1,6 +1,6 @@
 # createComponent
 
-**该小节对于<code>createComponent</code>方法只会分析主要逻辑部分，对于*异步组件*、*函数式组件*、*自定义组件v-model*、*keep-alive*分支逻辑先暂时略过，后续会出专门小节分析**
+该小节对于<code>createComponent</code>方法只会分析主要逻辑部分，对于<span style="border-bottom: 1px solid red; font-weight: bold;">异步组件、函数式组件、自定义组件v-model、keep-alive</span>分支逻辑先暂时略过，后续会出专门小节分析
 
 在[render](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/render.html#createelement)小节分析过，<code>render</code>方法返回的<code>vnode</code>是通过调用<code>_createElement</code>内部方法而来
 

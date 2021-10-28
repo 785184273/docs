@@ -12,10 +12,10 @@ module.exports = {
     // 开启搜索
     search: true,
     searchMaxSuggestions: 10,
-    algolia: {
-      apiKey: '25626fae796133dc1e734c6bcaaeac3c',
-      indexName: 'docsearch',
-    },
+    // algolia: {
+    //   apiKey: '25626fae796133dc1e734c6bcaaeac3c',
+    //   indexName: 'docsearch',
+    // },
     nav: [
       { text: 'GitHub', link: 'https://github.com/785184273/docs' }
     ],
@@ -83,8 +83,9 @@ module.exports = {
 					['/vue/nextTick', 'nextTick'],
 					['/vue/computed', '计算属性'],
 					['/vue/watch', '监听器'],
-					['/vue/props', 'props'],
+					// ['/vue/props', 'props'],
 					['/vue/createComponent', 'createComponent'],
+					['/vue/componentRegistry', '组件注册'],
           ['/vue/domDiff', '组件更新'],
         ]
       }
