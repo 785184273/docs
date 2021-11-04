@@ -85,7 +85,7 @@ module.exports = {
 					['/vue/watch', '监听器'],
 					// ['/vue/props', 'props'],
 					['/vue/createComponent', 'createComponent'],
-					['/vue/patch', 'patch'],
+					['/vue/patch', '初始化组件patch'],
 					['/vue/componentRegistry', '组件注册'],
           ['/vue/domDiff', '组件更新'],
         ]
