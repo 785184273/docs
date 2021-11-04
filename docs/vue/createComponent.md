@@ -4,7 +4,7 @@
 
 在[render](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/render.html#createelement)小节分析过，<code>render</code>方法返回的<code>vnode</code>是通过调用<code>_createElement</code>内部方法而来
 
-后续逻辑分析使用如下例子做参考
+会借助如下例子做后续逻辑的分析
 ```js
 new Vue({
   el: '#app',
@@ -94,7 +94,7 @@ export function _createElement (
 
 }
 ```
-这段逻辑很简单，判断<code>tag</code>是否为字符串，如果为字符串且为内置的元素，则和生成普通标签<code>vnode</code>一样，直接<code>new VNode</code>生成，接着会判断<code>tag</code>是否为已注册的组件名称，如果是则会调用<code>createComponent</code>方法生成<code>vnode</code>，如果<code>tag</code>不是字符串则直接调用<code>createComponent</code>方法生成<code>vnode</code>
+这段逻辑很简单，判断<code>tag</code>是否为字符串，如果为字符串且为内置的元素，则和生成普通标签<code>vnode</code>一样，直接<code>new VNode</code>，接着会判断<code>tag</code>是否为已注册的组件名称，如果是则会调用<code>createComponent</code>方法生成<code>vnode</code>（组件查找这段逻辑可在[组件注册](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/componentRegistry.html#%E7%BB%84%E4%BB%B6%E6%9F%A5%E6%89%BE)小节查看），如果<code>tag</code>不是字符串则直接调用<code>createComponent</code>方法生成<code>vnode</code>
 
 在所写例子的参数对象<code>render</code>方法中，我们在调用参数<code>h</code>方法（其实就是调用<code>vm.$createElement</code>方法）时传入了一个组件对象，所以会走对<code>tag</code>类型判断的<code>else</code>分支，会直接调用<code>createComponent</code>方法，<code>tag</code>就是参数对象
 

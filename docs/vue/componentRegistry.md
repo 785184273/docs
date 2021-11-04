@@ -103,7 +103,7 @@ export const ASSET_TYPES = [
 * 组件名称
 * 组件选项对象
 
-在使用<code>Vue.component</code>方法进行全局组件注册时在方法内部对<code>Vue.extend</code>进行了调用，可以查看在[createComponent](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/createComponent.html#vue-extend)小节对<code>Vue.extend</code>的分析，该方法会根据传入的组件对象返回一个继承了<code>Vue</code>原型对象的构造函数，然后将返回的构造函数添加在<code>Vue.options.component</code>中，并返回该构造函数，<code>Vue.directive、Vue.filter</code>和<code>Vue.component</code>共用的一个函数体，逻辑较简单，相信大家可以看懂
+在使用<code>Vue.component</code>方法进行全局组件注册时在方法内部对<code>Vue.extend</code>进行了调用，可以查看在[createComponent](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/createComponent.html#vue-extend)小节对<code>Vue.extend</code>的分析，<code>Vue.extend</code>会根据传入的组件对象返回一个继承了<code>Vue</code>原型对象的构造函数，然后将返回的构造函数添加在<code>Vue.options.components</code>中，并返回该构造函数，<code>Vue.directive、Vue.filter</code>和<code>Vue.component</code>共用的一个函数体，逻辑较简单，相信大家可以看懂
 
 ## 局部注册
 在<code>Vue</code>中我们可以在一个组件或实例内注册另一个组件，比如：
