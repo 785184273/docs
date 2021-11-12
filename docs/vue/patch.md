@@ -374,9 +374,38 @@ export function initInternalComponent (vm: Component, options: InternalComponent
   }
 }
 ```
-该方法内部逻辑较简单，首先利用<code>vm.constructor.options</code>作为原型创建对象<code>vm.$options</code>，<code>vm.constructor.options</code>其实就是指向<code>Vue.options</code>和该构造函数对应的组件对象合并后的对象，可以查看[createComponent](http://localhost:8090/vue/createComponent.html#vue-extend)小节对<code>Vue.extend</code>部分的逻辑分析，这里则不过多赘述，接着将<code>options</code>中的一些属性（<code>parent，parentVnode</code>）和该构造函数对应的占位符<code>vnode</code>中的一些属性（<code>propsData，listeners，children，tag</code>）添加到<code>vm.$options</code>中
+该方法内部逻辑较简单，首先利用<code>vm.constructor.options</code>作为原型创建对象<code>vm.$options</code>，<code>vm.constructor.options</code>其实就是指向<code>Vue.options</code>和该构造函数对应的组件对象合并后的对象，可以查看[createComponent](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/createComponent.html#vue-extend)小节对<code>Vue.extend</code>部分的参数合并逻辑分析，这里则不过多赘述，接着将<code>options</code>中的一些属性（<code>parent, parentVnode</code>）和该构造函数对应的占位符<code>vnode</code>中的一些属性（<code>propsData, listeners, children, tag</code>）添加到<code>vm.$options</code>中
 
-回到<code>_init</code>方法中，接着就是做对组件实例的生命周期，事件，<code>render</code>，状态等的一些初始化工作，由于组件对象不存在<code>el</code>属性，所以不会调用<code>vm.$mount</code>方法
+回到<code>_init</code>方法中，接着就是做对组件实例的生命周期，事件，<code>render</code>，状态等的一些初始化工作
+这里简单介绍下<code>initLifecycle</code>方法，该方法定义在<code>src/core/instance/lifecycle.js</code>
+```js
+export function initLifecycle (vm: Component) {
+  const options = vm.$options
+
+  // locate first non-abstract parent
+  let parent = options.parent
+  if (parent && !options.abstract) {
+    while (parent.$options.abstract && parent.$parent) {
+      parent = parent.$parent
+    }
+    parent.$children.push(vm)
+  }
+
+  vm.$parent = parent
+  vm.$root = parent ? parent.$root : vm
+
+  vm.$children = []
+  vm.$refs = {}
+
+  vm._watcher = null
+  vm._inactive = null
+  vm._directInactive = false
+  vm._isMounted = false
+  vm._isDestroyed = false
+  vm._isBeingDestroyed = false
+}
+```
+该方法主要是将当前实例和父实例做一些关联（<code>parent</code>和<code>children</code>的关联），和在当前实例上定义一些初始化变量
 
 接着回到<code>src/core/vdom/create-component.js</code>中定义的组件钩子<code>init</code>方法中
 ```js
@@ -403,4 +432,155 @@ const componentVNodeHooks = {
 	
 }
 ```
-生成的组件实例会赋给<code>vnode.componentIntance</code>和<code>child</code>，然后调用<code>child.$mount(undefined, false)</code>方法，由于在<code>createComponent</code>方法中调用<code>init</code>钩子时，传递的参数<code>hydrating</code>为<code>false</code>，所以参数为<code>undefined, false</code>
+生成的组件实例会赋给<code>vnode.componentIntance</code>和<code>child</code>，然后调用<code>child.$mount(undefined, false)</code>方法（由于在<code>createComponent</code>方法中调用<code>init</code>钩子时，传递的参数<code>hydrating</code>为<code>false</code>，所以参数为<code>undefined, false</code>）
+
+接着后续会执行和实例化<code>Vue</code>根实例一样的方法步骤
+* 将组件<code>template</code>编译成<code>render</code>
+* 调用<code>vm._render</code>方法生成虚拟<code>DOM</code>
+* 将生成的虚拟<code>DOM</code>作为参数调用<code>vm._update</code>（内部调用`vm.__patch__`方法）
+
+继续回到<code>patch</code>方法中
+```js
+return function patch (oldVnode, vnode, hydrating, removeOnly) {
+	if (isUndef(vnode)) {
+		if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
+		return
+	}
+
+	let isInitialPatch = false
+	const insertedVnodeQueue = []
+
+	if (isUndef(oldVnode)) {
+		// empty mount (likely as component), create new root element
+		isInitialPatch = true
+		createElm(vnode, insertedVnodeQueue)
+	} else {
+    
+		// ......
+		
+	}
+
+	invokeInsertHook(vnode, insertedVnodeQueue, isInitialPatch)
+	return vnode.elm
+}
+```
+由于调用<code>$mount</code>方法时<code>el</code>接收到的对应参数值为<code>undefined</code>，所以<code>vm.$el</code>和<code>oldVnode</code>都为<code>undefined</code>
+
+紧接着在<code>patch</code>方法内部调用<code>createElm</code>方法，并且返回<code>vnode.elm</code>真实<code>DOM</code>
+可以回顾[update](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/update.html#createelm)小节对该方法和<code>vm._update</code>后续逻辑的解析
+
+接着继续回到<code>src/core/vdom/patch.js</code>文件中的<code>createComponent</code>方法的后续逻辑中
+```js
+function createComponent (vnode, insertedVnodeQueue, parentElm, refElm) {
+	let i = vnode.data
+	if (isDef(i)) {
+
+		// ......
+
+		// after calling the init hook, if the vnode is a child component
+		// it should've created a child instance and mounted it. the child
+		// component also has set the placeholder vnode's elm.
+		// in that case we can just return the element and be done.
+		if (isDef(vnode.componentInstance)) {
+			initComponent(vnode, insertedVnodeQueue)
+			insert(parentElm, vnode.elm, refElm)
+			if (isTrue(isReactivated)) {
+				reactivateComponent(vnode, insertedVnodeQueue, parentElm, refElm)
+			}
+			return true
+		}
+	}
+}
+```
+占位符<code>vnode</code>的组件实例已经生成，接着会调用<code>initComponent</code>方法，该方法和<code>createComponent</code>方法定义在同一文件中
+```js
+function initComponent (vnode, insertedVnodeQueue) {
+	if (isDef(vnode.data.pendingInsert)) {
+		insertedVnodeQueue.push.apply(insertedVnodeQueue, vnode.data.pendingInsert)
+		vnode.data.pendingInsert = null
+	}
+	vnode.elm = vnode.componentInstance.$el
+	if (isPatchable(vnode)) {
+		invokeCreateHooks(vnode, insertedVnodeQueue)
+		setScope(vnode)
+	} else {
+		// empty component root.
+		// skip all element-related modules except for ref (#3455)
+		registerRef(vnode)
+		// make sure to invoke the insert hook
+		insertedVnodeQueue.push(vnode)
+	}
+}
+```
+该方法内部主要更新<code>vnode.elm</code>（将组件的根元素赋给<code>vnode.elm</code>）紧接着执行各个模块的<code>create</code>钩子，并且判断该占位符<code>vnode</code>是否有<code>create</code>钩子，如果有则执行，然后将该占位符<code>vnode</code>添加到队列<code>insertedVnodeQueue</code>中，<code>setScope</code>方法暂略过分析，继续回到<code>createComponent</code>方法，接着执行<code>insert</code>方法，该方法和<code>initComponent</code>方法定义在同一文件中
+```js
+function insert (parent, elm, ref) {
+	if (isDef(parent)) {
+		if (isDef(ref)) {
+			if (nodeOps.parentNode(ref) === parent) {
+				nodeOps.insertBefore(parent, elm, ref)
+			}
+		} else {
+			nodeOps.appendChild(parent, elm)
+		}
+	}
+}
+```
+将占位符<code>vnode</code>对应的组件的根元素，添加到父级元素<code>parent</code>中，至此，便实现了组件的初始化渲染，元素插入完毕，<code>createComponent</code>方法直接<code>return true</code>，回到<code>patch</code>方法后续逻辑
+```js
+  return function patch (oldVnode, vnode, hydrating, removeOnly) {
+    if (isUndef(vnode)) {
+      if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
+      return
+    }
+
+    let isInitialPatch = false
+    const insertedVnodeQueue = []
+
+    if (isUndef(oldVnode)) {
+      isInitialPatch = true
+      createElm(vnode, insertedVnodeQueue)
+    } else {
+      const isRealElement = isDef(oldVnode.nodeType)
+      if (!isRealElement && sameVnode(oldVnode, vnode)) {
+        patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly)
+      } else {
+        if (isRealElement) {
+
+          // ......
+
+          oldVnode = emptyNodeAt(oldVnode)
+        }
+
+        // replacing existing element
+        const oldElm = oldVnode.elm
+        const parentElm = nodeOps.parentNode(oldElm)
+
+        // create new node
+        createElm(
+          vnode,
+          insertedVnodeQueue,
+          // extremely rare edge case: do not insert if old element is in a
+          // leaving transition. Only happens when combining transition +
+          // keep-alive + HOCs. (#4590)
+          oldElm._leaveCb ? null : parentElm,
+          nodeOps.nextSibling(oldElm)
+        )
+
+        // ......
+
+        // destroy old node
+        if (isDef(parentElm)) {
+          removeVnodes([oldVnode], 0, 0)
+        } else if (isDef(oldVnode.tag)) {
+          invokeDestroyHook(oldVnode)
+        }
+      }
+    }
+
+    invokeInsertHook(vnode, insertedVnodeQueue, isInitialPatch)
+    return vnode.elm
+  }
+}
+```
+<code>patch</code>方法内接着移除<code>oldVnode</code>，并调用<code>invokeInsertHook</code>方法，循环调用<code>insertedVnodeQueue</code>队列中的每个组件的<code>insert</code>钩子
