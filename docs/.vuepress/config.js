@@ -8,6 +8,9 @@ module.exports = {
     ['link', { rel: 'icon', href: '/img/logo.png' }],
 		['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
+	markdown: {
+		lineNumbers: true // 行高亮
+	},
   themeConfig: {
 		logo: '/img/avatar.jpg',
 		author: 'lw',
