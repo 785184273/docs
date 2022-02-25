@@ -48,7 +48,8 @@ module.exports = {
           ['/typescript/unknown', 'unknown'],
           ['/typescript/never', 'never'],
           ['/typescript/asConst', 'const断言'],
-          ['/typescript/enum', 'enum']
+          ['/typescript/enum', 'enum'],
+					['/typescript/typeAssertionVSTypeDeclaration', '类型断言VS类型声明']
         ]
       },
       {
