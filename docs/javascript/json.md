@@ -1,4 +1,13 @@
-# JSON.stringify()
+---
+title: JSON.stringify()
+date: 2021-05-15
+categories:
+ - 零碎点
+tags:
+ - js
+ - json
+---
+
 所有安全的JSON值，都可以使用JSON.stringify()字符串化，安全的JSON值能够呈现为有效的JSON格式
 ::: tip 提示
   不安全的JSON值：undefined、function、symbol和包含循环引用（对象之间相互引用，形成一个无限循环）的对象都不符合JSON的结构标准

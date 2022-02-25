@@ -1,4 +1,12 @@
-# runner
+---
+title: 生成器runner
+date: 2021-06-15
+categories:
+ - 零碎点
+tags:
+ - js
+---
+
 ::: tip 提示
 在使用生成器函数(function* () {...})进行一系列异步操作时，我们一般都不想每次在每个yield异步请求完成时手动调用生成器实例的next方法进行迭代，可能更加需要一个runner自动迭代
 :::

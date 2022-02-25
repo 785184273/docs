@@ -1,4 +1,12 @@
-# patch
+---
+title: 初始化组件patch
+date: 2021-11-12
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 在[update](https://lw-source-0gry9eb6c4a0e823-1305870612.tcloudbaseapp.com/vue/update.html)小节分析了普通<code>vnode</code>渲染到页面的过程，这小节重点分析组件<code>vnode</code>（占位符<code>vnode</code>）的渲染过程
 
 借助如下例子进行后续的逻辑分析

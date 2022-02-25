@@ -1,4 +1,12 @@
-# 参数合并
+---
+title: 参数合并
+date: 2021-10-28
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 我们知道在<code>new Vue</code>时会传入一个参数对象，比如：
 ```js
 new Vue({

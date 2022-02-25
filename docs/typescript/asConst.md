@@ -1,4 +1,12 @@
-# const断言
+---
+title: const断言
+date: 2021-05-20
+categories:
+ - 进阶
+tags:
+ - ts
+---
+
 const断言是一种类型断言，const代替了类型名
 
 ## const

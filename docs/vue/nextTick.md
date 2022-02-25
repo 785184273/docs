@@ -1,4 +1,13 @@
-# nextTick
+---
+title: nextTick
+date: 2021-10-15
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
+
 在上一小节派发更新中，对<code>queueWatcher</code>方法的分析中有对<code>nextTick</code>方法的使用，字面意义就是下一个<code>tick</code>，<code>nextTick</code>是一个异步方法，在解析该方法之前，需要读者对浏览器端事件循环有一定的理解，这里对事件循环就不做过多的讲解，可以参考[知乎事件循环](https://zhuanlan.zhihu.com/p/145383822)
 
 我们知道<code>Vue</code>提供了两种对<code>nextTick</code>方法的调用方式，一种是<code>Vue.nextTick</code>，另一种则是在<code>Vue</code>实例上调用<code>vm.$nextTick</code>

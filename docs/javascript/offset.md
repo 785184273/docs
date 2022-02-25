@@ -1,4 +1,11 @@
-# event事件中的偏移量
+---
+title: event事件中的偏移量
+date: 2021-09-23
+categories:
+ - 零碎点
+tags:
+ - js
+---
 
 ::: tip 提示
   下文中evt为event事件对象的简写

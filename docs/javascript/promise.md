@@ -1,4 +1,12 @@
-# promise
+---
+title: promise
+date: 2021-05-11
+categories:
+ - 零碎点
+tags:
+ - js
+---
+
 ::: tip 提示
 主要说明promise中相关的疑点，基础Api可查看[es6入门](https://es6.ruanyifeng.com/#docs/promise)
 :::

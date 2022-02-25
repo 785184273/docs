@@ -1,4 +1,12 @@
-# 派发更新
+---
+title: 派发更新
+date: 2021-10-18
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 上一小节分析了响应式数据依赖收集的过程，这一节接着分析当数据发生改变通知更新的过程，首先看下<code>defineReactive</code>的<code>Setter</code>部分，该方法定义在<code>src/core/observer/index.js</code>
 ```js
 export function defineReactive (

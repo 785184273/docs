@@ -1,4 +1,12 @@
-# set
+---
+title: 响应式set方法
+date: 2021-10-25
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 <code>set</code>方法主要是为响应式对象中动态的添加响应式属性，该方法在全局方法<code>Vue.set</code>和实例方法<code>vm.$set</code>内被调用，可分别在<code>src/core/global-api/index.js</code>和<code>src/core/instance/state.js</code>文件中可查看相关定义
 
 该方法会返回设置的响应式属性的值

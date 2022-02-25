@@ -1,4 +1,11 @@
-# createComponent
+---
+title: createComponent
+date: 2021-11-04
+categories:
+ - 源码分析
+tags:
+ - vue
+---
 
 该小节对于<code>createComponent</code>方法只会分析主要逻辑部分，对于<span style="border-bottom: 1px solid red; font-weight: bold;">异步组件、函数式组件、自定义组件v-model、keep-alive</span>分支逻辑先暂时略过，后续会出专门小节分析
 

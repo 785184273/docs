@@ -1,4 +1,12 @@
-# render
+---
+title: render
+date: 2021-10-13
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 <code>vm._render</code>方法定义在<code>src/core/instance/render.js</code>文件中。
 
 通过<code>renderMixin</code>方法在<code>Vue</code>的原型上扩展:

@@ -1,4 +1,12 @@
-# 组件注册
+---
+title: 组件注册
+date: 2021-11-04
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 组件注册分为两种形式，全局注册和局部注册，在分析组件注册之前，有必要先了解下<code>initGlobalAPI</code>方法
 
 ## initGlobalAPI

@@ -1,4 +1,12 @@
-# 计算属性
+---
+title: 计算属性
+date: 2021-10-27
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 在<code>new Vue</code>实例化<code>vm</code>过程中，涉及到了对<code>state</code>的初始化，其中就包括对计算属性的初始化
 ```js
 export function initState (vm: Component) {

@@ -1,4 +1,12 @@
-# 响应式对象
+---
+title: 响应式对象
+date: 2021-10-12
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 可能很多人都了解过Vue2.x实现响应式主要使用的是<code>Object.defineProperty</code>，但并没有具体探究，下面就来分析下
 
 在分析前如果对<code>Object.defineProperty</code>这个方法不熟悉的，可以在[MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)上查看该方法的具体定义

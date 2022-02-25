@@ -1,4 +1,12 @@
-# del
+---
+title: 响应式del方法
+date: 2021-10-25
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 <code>del</code>同<code>set</code>方法一样，都是响应式方法，只不过<code>del</code>方法是删除数组或对象中的某一项，该方法在全局方法<code>Vue.delete</code>和实例方法<code>vm.$delete</code>内被调用，可分别在<code>src/core/global-api/index.js</code>和<code>src/core/instance/state.js</code>文件中可查看相关定义
 
 这个方法应该很少会用到

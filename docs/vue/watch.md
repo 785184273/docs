@@ -1,4 +1,12 @@
-# watch
+---
+title: 监听器
+date: 2021-10-19
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 监听器的初始化也是在<code>initState</code>方法中，在计算属性的初始化之后，在<code>src/core/instance/state.js</code>文件中可查看
 ```js
 export function initState (vm: Component) {

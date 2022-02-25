@@ -1,4 +1,11 @@
-# class
+---
+title: this
+date: 2021-05-20
+categories:
+ - 进阶
+tags:
+ - ts
+---
 
 > **[ts中this部分详细解释请参看](https://zhuanlan.zhihu.com/p/104565681)**
 

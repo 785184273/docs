@@ -1,4 +1,12 @@
-# 依赖收集
+---
+title: 依赖收集
+date: 2021-10-12
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 <code>Vue</code>会循环遍历<code>data</code>中的每个属性，并调用内部方法<code>defineReactive</code>，然后为每个属性分配一个<code>Dep</code>实例，再利用<code>Object.defineProperty</code>为每个属性添加一个<code>Getter</code>和<code>Setter</code>，而<code>Getter</code>则负责依赖收集
 ```js
 export function defineReactive (

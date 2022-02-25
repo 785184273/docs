@@ -1,4 +1,11 @@
-# new Vue
+---
+title: new Vue
+date: 2021-10-13
+categories:
+ - 源码分析
+tags:
+ - vue
+---
 
 ## 前提
 

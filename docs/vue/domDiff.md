@@ -1,4 +1,12 @@
-# 组件更新
+---
+title: 组件更新
+date: 2021-10-12
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 <code>vue</code>的核心是数据驱动和组件化，而当组件更新时主要核心则是<code>domDiff</code>算法
 
 该方法包含两个参数，第一个参数<code>vnode</code>，在实例化<code>Vue</code>过程中，会实例化一个渲染<code>watcher</code>，在实例化该<code>watcher</code>过程中会调用当前实例的<code>_update</code>（原型方法）方法，而该方法的<code>vnode</code>则由当前实例的<code>_render</code>（原型方法）方法生成并返回。第二个参数主要是在服务端渲染使用，可略过分析。

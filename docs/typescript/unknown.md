@@ -1,4 +1,12 @@
-# unknown
+---
+title: unknown
+date: 2021-05-20
+categories:
+ - 进阶
+tags:
+ - ts
+---
+
 unknown类型表示任何值。这与any类型相似，但是更安全，因为用unknown值做任何事情都是不合法的
 
 ::: tip 提示

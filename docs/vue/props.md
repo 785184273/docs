@@ -1,4 +1,12 @@
-# props
+---
+title: props
+date: 2021-10-13
+categories:
+ - 源码分析
+tags:
+ - vue
+---
+
 上一小节分析了监听器部分，这小节分析对<code>props</code>的初始化，<code>initProps</code>在<code>initState</code>方法内调用
 ```js
 export function initState (vm: Component) {

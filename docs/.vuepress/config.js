@@ -1,14 +1,20 @@
 module.exports = {
+	theme: 'reco',
   base: '/',
-  title: 'Async的小破屋',
+  title: 'Async Blog',
   description: 'Async的小破屋',
   port: '8090',
   head: [
     ['link', { rel: 'icon', href: '/img/logo.png' }],
+		['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
   themeConfig: {
+		logo: '/img/avatar.jpg',
+		author: 'lw',
+		subSidebar: 'auto',
     lastUpdated: '最后更新时间',
     smoothScroll: true, // 启用页面滚动效果
+		noFoundPageByTencent: true, // 腾讯公益
     // 开启搜索
     search: true,
     searchMaxSuggestions: 10,
@@ -16,8 +22,21 @@ module.exports = {
     //   apiKey: '25626fae796133dc1e734c6bcaaeac3c',
     //   indexName: 'docsearch',
     // },
+		// 博客配置
+		blogConfig: {
+			category: {
+				text: 'Category' // 默认文案 “分类”
+			},
+			tag: {
+				text: 'Tag'      // 默认文案 “标签”
+			},
+			socialLinks: [     // 信息栏展示社交信息
+				{ icon: 'reco-github', link: 'https://github.com/785184273/docs' },
+			]
+		},
     nav: [
-      { text: 'GitHub', link: 'https://github.com/785184273/docs' }
+      { text: 'GitHub', link: 'https://github.com/785184273/docs', icon: 'reco-github' },
+			{ text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
     ],
     // displayAllHeaders: true, // 显示所有页面的标题链接
     sidebar: [
@@ -94,7 +113,12 @@ module.exports = {
     ]
   },
   plugins: [
-    ['@vuepress/back-to-top'],
+    [
+			'@vuepress/back-to-top',
+			{
+				icon: 'reco-up'
+			},
+		],
     [
       '@vuepress/pwa', 
       {
