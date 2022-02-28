@@ -995,6 +995,27 @@
     event-target-shim "^5.0.1"
     miniprogram-api-typings "^2.10.2"
 
+"@moefy-canvas/core@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@moefy-canvas/core/-/core-0.3.0.tgz#09ad70e51b20729441b381ab1ac9ccdb31002ae5"
+  integrity sha512-ZWE78QcK4fU3badHXLPQLcORU23b4SQtJFWtHHoXIl8qSxNVmLUUCmGnJ85Rg52/uAMbedZNi/kIIF4fu8I4Pg==
+
+"@moefy-canvas/theme-popper@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@moefy-canvas/theme-popper/-/theme-popper-0.3.0.tgz#49ea9b935703f2cadf5a758bcf5f0f6efdfa3650"
+  integrity sha512-p3KGs/RqCO47oD9mvn3HdTPcVhoyGUOqVyT/vXNBDXLEA/t14RW0a4lhjY6iKNisM23BVQNwjIxZBZrdkBnAUQ==
+  dependencies:
+    "@moefy-canvas/core" "^0.3.0"
+    "@moefy-canvas/utils" "^0.3.0"
+    ts-debounce "^4.0.0"
+
+"@moefy-canvas/utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@moefy-canvas/utils/-/utils-0.3.0.tgz#882836c028164953d4c6d284754d8242159b1495"
+  integrity sha512-dsdYvQKZg16yd+cvFDtL4zu8lPDJbHYcVBxMR4/MY+N/hSsMF8PMH04cE4szYstoZHrlLBZcB2cZEoxGas5PKw==
+  dependencies:
+    "@moefy-canvas/core" "^0.3.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -6083,6 +6104,13 @@ opencollective-postinstall@^2.0.2:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
   integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
 
+openteam-postinstall@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/openteam-postinstall/-/openteam-postinstall-1.0.2.tgz#c31e98eda2c787caa8ce2b3572d665eb08cc9916"
+  integrity sha512-fwmwxXTJC9Cf+1+awPY6auO781smO7ka7YPHihTt9pxlLOqdoykvL2jg6CNnV7uyXujZSN6J+UhdRnHV1PywnA==
+  dependencies:
+    lodash "^4.17.15"
+
 opn@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"
@@ -8109,6 +8137,11 @@ tr46@^1.0.1:
   dependencies:
     punycode "^2.1.0"
 
+ts-debounce@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ts-debounce/-/ts-debounce-4.0.0.tgz#33440ef64fab53793c3d546a8ca6ae539ec15841"
+  integrity sha512-+1iDGY6NmOGidq7i7xZGA4cm8DAa6fqdYcvO5Z6yBevH++Bdo9Qt/mN0TzHUgcCcKv1gmh9+W5dHqz8pMWbCbg==
+
 tslib@^2.0.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
@@ -8583,12 +8616,24 @@ vuepress-plugin-container@^2.0.2:
     "@vuepress/shared-utils" "^1.2.0"
     markdown-it-container "^2.0.0"
 
+vuepress-plugin-cursor-effects@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-cursor-effects/-/vuepress-plugin-cursor-effects-1.1.2.tgz#9df2a08106b58d06f6d41b99b5ba600f332586fe"
+  integrity sha512-xzVn55AhSFEL3rXtS3nm6r+ICAc/XktgTIFaYft9DrY5/3nDrwsPsYbKXcAsXbHgkpLRekuuE6LXMPnraSJOBQ==
+  dependencies:
+    "@moefy-canvas/theme-popper" "^0.3.0"
+
 vuepress-plugin-disqus@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/vuepress-plugin-disqus/-/vuepress-plugin-disqus-0.2.0.tgz#0a5bde424f81e0185eda36fba23d7ac4cae6ff07"
   integrity sha512-kx+AeVzjJ9lx9bufLt1/X35V1VXfnQ1srkDMIzFKD9NyQ3eycsWQRcGO1dFe1HMrY3+7fTu+1/JeUEUEpGZ5tw==
   dependencies:
     vue-disqus "^3.0.5"
+
+vuepress-plugin-dynamic-title@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-dynamic-title/-/vuepress-plugin-dynamic-title-1.0.0.tgz#867e7a8b821ad35ccfaaafc2358bc129817d422f"
+  integrity sha512-CN1wtkPNG3shGzEFgqOa2dzojSle7SeAaf+Cw77Xmkv8jvB3wO5r2zXkIHTjiclQY1c5q5lE8h2A9vQaLdor2Q==
 
 vuepress-plugin-feed@^0.1.8:
   version "0.1.9"
@@ -8603,6 +8648,20 @@ vuepress-plugin-feed@^0.1.8:
     remove-markdown "0.3.0"
     striptags "3.1.1"
 
+vuepress-plugin-go-top@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-go-top/-/vuepress-plugin-go-top-1.0.4.tgz#b2c359d85280e8737c65a43fde6e6d42953878af"
+  integrity sha512-VxYrZmvC9agXVOEzy1G7mJj23p17O7CVmcXhlaFtQ+J827OcIqNC1X646/gOI8Hfn8or17+J+8/Bg0ZSRyizEA==
+
+vuepress-plugin-helper-live2d@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-helper-live2d/-/vuepress-plugin-helper-live2d-1.0.2.tgz#6ba1c2f0a440c9263078ae5083de26fbbfac0759"
+  integrity sha512-OQFynzDJeuEpxv25oNE15otpfCV8Yf0Nxsqq2Y/RHRIdzMpgcp7B0HZRDKUjUqRUa+Sd0NxXbCdzPSxP/9TwWw==
+  dependencies:
+    chalk "^2.4.2"
+    lodash "^4.17.15"
+    openteam-postinstall "^1.0.2"
+
 vuepress-plugin-mailchimp@^1.4.1:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/vuepress-plugin-mailchimp/-/vuepress-plugin-mailchimp-1.4.2.tgz#373fa1df8f03a8993817b09ddfb8bd9d04a1c665"
@@ -8610,6 +8669,11 @@ vuepress-plugin-mailchimp@^1.4.1:
   dependencies:
     jsonp "^0.2.1"
     query-string "^6.9.0"
+
+vuepress-plugin-sakura@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-sakura/-/vuepress-plugin-sakura-1.1.0.tgz#b76d8749fdd49b24f68bb4785ae7441c024b5922"
+  integrity sha512-YpPINCkGSYLIm8xozH8ZiD/NvnUAPv1/ONnxf9Nr2vbtN2EQyxM+sBDKpVqHDI1gvlhCjk8YmkMg02x/2+5o3g==
 
 vuepress-plugin-sitemap@^2.3.1:
   version "2.3.1"

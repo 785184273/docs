@@ -6,13 +6,18 @@
   "devDependencies": {
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/plugin-pwa": "^1.8.2",
-    "vuepress": "^1.8.2"
+    "vuepress": "^1.8.2",
+    "vuepress-plugin-cursor-effects": "^1.1.2",
+    "vuepress-plugin-dynamic-title": "^1.0.0",
+    "vuepress-plugin-go-top": "^1.0.4",
+    "vuepress-plugin-sakura": "^1.1.0"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs --temp .temp",
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "vuepress-plugin-helper-live2d": "^1.0.2",
     "vuepress-theme-reco": "^1.6.11"
   }
 }
