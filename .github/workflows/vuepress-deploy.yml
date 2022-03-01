@@ -15,4 +15,4 @@ jobs:
         TARGET_BRANCH: master
         BUILD_SCRIPT: yarn && yarn docs:build
         BUILD_DIR: docs/.vuepress/dist/
-				COMMIT_MESSAGE: Auto deploy from Github Actions
+        COMMIT_MESSAGE: Auto deploy from Github Actions
