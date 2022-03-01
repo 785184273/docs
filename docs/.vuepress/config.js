@@ -1,29 +1,37 @@
+console.log(process.env.NODE_ENV)
+const devHeadList = [
+	['script', {
+		src: 'https://unpkg.com/vconsole@latest/dist/vconsole.min.js'
+	}],
+	['script', {
+		src: '/vConsole.js'
+	}]
+]
+const head = [
+	['link', {
+		rel: 'icon',
+		href: '/img/logo.png'
+	}],
+	['meta', {
+		name: 'viewport',
+		content: 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'
+	}],
+	['meta', {
+		name: 'keywords',
+		content: 'Austin,博客,lw,Austin’s Blog'
+	}]
+]
+// 生产环境添加vConsole
+if (process.env.NODE_ENV == 'development') {
+	head.push(...devHeadList)
+}
 module.exports = {
 	theme: 'reco',
 	base: '/',
 	title: 'Austin’s Blog',
 	description: '记录，成为更好的自己。',
 	port: '8090',
-	head: [
-		['link', {
-			rel: 'icon',
-			href: '/img/logo.png'
-		}],
-		['meta', {
-			name: 'viewport',
-			content: 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'
-		}],
-		['meta', {
-			name: 'keywords',
-			content: 'Austin,博客,lw,Austin’s Blog'
-		}],
-		['script', {
-			src: 'https://unpkg.com/vconsole@latest/dist/vconsole.min.js'
-		}],
-		['script', {
-			src: '/vConsole.js'
-		}]
-	],
+	head,
 	markdown: {
 		lineNumbers: true // 行高亮
 	},
