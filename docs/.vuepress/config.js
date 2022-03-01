@@ -1,7 +1,7 @@
 module.exports = {
 	theme: 'reco',
 	base: '/',
-	title: 'Austin Blog',
+	title: 'Austin’s Blog',
 	description: '记录，成为更好的自己。',
 	port: '8090',
 	head: [
@@ -11,12 +11,18 @@ module.exports = {
 		}],
 		['meta', {
 			name: 'viewport',
-			content: 'width=device-width,initial-scale=1,user-scalable=no'
+			content: 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'
 		}],
 		['meta', {
 			name: 'keywords',
-			content: 'Austin,博客,lw,Austin Blog'
+			content: 'Austin,博客,lw,Austin’s Blog'
 		}],
+		['script', {
+			src: 'https://unpkg.com/vconsole@latest/dist/vconsole.min.js'
+		}],
+		['script', {
+			src: '/vConsole.js'
+		}]
 	],
 	markdown: {
 		lineNumbers: true // 行高亮
@@ -39,7 +45,7 @@ module.exports = {
 		// },
 		// 评论
 		valineConfig: {
-			appId: 'l2r9KhWApEVKU2iCUQRRITc2-gzGzoHsz',// your appId
+			appId: 'l2r9KhWApEVKU2iCUQRRITc2-gzGzoHsz', // your appId
 			appKey: 'goCfFcr20vM7qqy5wLdhsDxS', // your appKey
 			placeholder: '填写邮箱可以收到回复哦!',
 			visitor: true,
@@ -145,6 +151,7 @@ module.exports = {
 	plugins: [
 		['go-top'],
 		['cursor-effects'],
+		['vuepress-plugin-code-copy', true], // 复制代码块
 		[
 			'@vuepress/pwa',
 			{
@@ -165,9 +172,9 @@ module.exports = {
 			'dynamic-title',
 			{
 				showIcon: '/favicon.ico',
-				showText: '(/≧▽≦/)咦！又好了！',
+				showText: "(/≧▽≦/)欢迎帅哥美女！",
 				hideIcon: '/failure.ico',
-				hideText: '(●—●)喔哟，崩溃啦！',
+				hideText: "(●—●)呜呜，不要走嘛！",
 				recoverTime: 2000,
 			},
 		],
