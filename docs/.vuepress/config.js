@@ -47,6 +47,8 @@ module.exports = {
 		// 开启搜索
 		search: true,
 		searchMaxSuggestions: 10,
+		record: 'A20220113-0046',
+		recordLink: 'https://beian.miit.gov.cn',
 		// algolia: {
 		//   apiKey: '25626fae796133dc1e734c6bcaaeac3c',
 		//   indexName: 'docsearch',
