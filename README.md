@@ -8,5 +8,3 @@ cloudbase framework deploy
 
 # gitHub Action自动化部署
 在每次push代码都会部署到gitHub page
-
-# didi

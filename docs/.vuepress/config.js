@@ -29,15 +29,15 @@ module.exports = {
 	theme: 'reco',
 	base: '/',
 	title: 'Austin’s Blog',
-	description: '记录，成为更好的自己。',
+	description: '只是害怕终究有一天，时间会让我忘了你。',
 	port: '8090',
 	head,
 	markdown: {
 		lineNumbers: true // 行高亮
 	},
 	themeConfig: {
-		logo: '/img/avatar.jpg',
-		authorAvatar: '/img/avatar.jpg',
+		logo: '/img/avatar1.jpg',
+		authorAvatar: '/img/avatar1.jpg',
 		type: 'blog',
 		author: 'Austin',
 		subSidebar: 'auto',
