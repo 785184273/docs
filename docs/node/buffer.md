@@ -1,5 +1,6 @@
 ---
 title: Buffer
+date: 2022-11-13
 categories:
  - 进阶
 tags:

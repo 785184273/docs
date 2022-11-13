@@ -1,5 +1,6 @@
 ---
 title: __proto__和prototype的区别
+date: 2022-11-13
 categories:
  - 零碎点
 tags:
