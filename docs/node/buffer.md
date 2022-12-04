@@ -288,7 +288,7 @@ function fromStringFast(string, ops) {
   return b;
 }
 ```
-该方法首先会根据编码获取`string`参数的字节长度，`createFromString`方法为内部绑定方法，先略过，如果字节长度`length`大于内部内存池`poolOffset`到字节尾部的长度，则调用`createPool`方法重新创建一个内存池，`allocPool`为长度默认为`8 * 1024`字节的`ArrayBuffer`内存池，该方法返回的`buf`对象底层引用的是内存池中指定的偏移量和字节长度的`ArrayBuffer`对象，然后根据编码选项对象的`ops.write`方法将`string`数据写入到`buf`对象底层引用的内存中，一般默认编码为`utf8`，`ops.write`方法为内部绑定的`utf8Write`方法，最后递增内存池的偏移量`poolOffset`和调用`alignPool`方法
+该方法首先会根据编码获取`string`参数的字节长度，当字节长度`length`大于内部内存池的一半，则会调用`createFromString`方法，该方法为`node`内部方法，还没找到地儿，先略过，如果字节长度`length`大于内部内存池`poolOffset`到字节尾部的长度，则调用`createPool`方法重新创建一个内存池，`allocPool`为长度默认为`8 * 1024`字节的`ArrayBuffer`内存池，该方法返回的`buf`对象底层引用的是内存池中指定的偏移量和字节长度的`ArrayBuffer`对象，然后根据编码选项对象的`ops.write`方法将`string`数据写入到`buf`对象底层引用的内存中，一般默认编码为`utf8`，`ops.write`方法为内部绑定的`utf8Write`方法，最后递增内存池的偏移量`poolOffset`和调用`alignPool`方法
 #### 数组/类数组对象/buffer对象
 ```js
 // lib/buffer.js
@@ -356,5 +356,5 @@ function fromArrayLike(obj) {
   return new FastBuffer(obj);
 }
 ```
-`fromArrayLike`方法内部，会首先对`length`做判断，当小于等于0会直接返回`new FastBuffer`生成的实例对象，当`obj.length`小于内部内存池大小的一半，则会将内存池作为返回`buf`对象`ArrayBuffer`，当`obj.length`小于内部内存池剩余的空间，则重新创建一个内部内存池，接着将`obj`的数据利用`TypedArray.prototype.set`方法保存在返回的`buf`对象中，当`obj.length`大于内部内存池大小的一半，则会直接返回`new FastBuffer(obj)`
+`fromArrayLike`方法内部，会首先对`length`做判断，当小于等于0会直接返回`new FastBuffer`生成的实例对象，当`obj.length`小于内部内存池大小的一半，则会将内存池作为返回`buf`对象底层内存，当`obj.length`小于内部内存池剩余的空间，则会创建一个新内部内存池，接着将`obj`的数据利用`TypedArray.prototype.set`方法保存在返回的`buf`对象中，当`obj.length`大于内部内存池大小的一半，则会直接返回`new FastBuffer(obj)`生成的`buf`对象
 
